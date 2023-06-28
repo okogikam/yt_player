@@ -46,3 +46,7 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
+self.addEventListener("statechange", () => {
+    console.log(self.serviceWorker.state);
+    alert(self.serviceWorker.state)
+});
