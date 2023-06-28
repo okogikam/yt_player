@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link rel="manifest" href="./manifest.json" crossorigin="use-credentials" />
+</head>
+<body>
+    <div class="loading">
+        <img src="./Loading_2.gif" alt="">
+    </div>
+    <div class="input-search">
+        <input type="text" class="search">
+        <button class="cari-btn">Cari</button>
+    </div>
+    <div class="result">
+        <div class="video-player d-none">
+            <div id="video-player"></div>
+        </div>
+        <div class="list-video"></div>
+    </div>
+    <!-- script  -->
+    
+    <script src="./Ytvideo.js"></script>
+    <script src="./yt_api.js"></script>
+    <!-- https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=anime&key=AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI -->
+</body>
+</html>
