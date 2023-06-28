@@ -8,18 +8,26 @@
     <link rel="stylesheet" href="./style.css">
     <script src="https://www.youtube.com/iframe_api"></script>
     <link rel="manifest" href="./manifest.json" crossorigin="use-credentials" />
+    <script src="https://kit.fontawesome.com/a121d47811.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="loading">
         <img src="./Loading_2.gif" alt="">
     </div>
     <div class="input-search">
-        <input type="text" class="search">
-        <button class="cari-btn">Cari</button>
+        <label for="cari"><img src="./logo.png" class="logo"></label>
+        <input type="text" class="search" id="cari" placeholder="Pencarian">
+        <button class="cari-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="setting-btn"><i class="fa-solid fa-gear"></i></button>
     </div>
     <div class="result">
         <div class="video-player d-none">
             <div id="video-player"></div>
+        </div>
+        <div class="menu">
+            <button class="btn-menu" data-type="search">Search Result</button>
+            <button class="btn-menu" data-type="playlist">Playlist</button>
+            <button class="btn-menu active" data-type="history">History</button>
         </div>
         <div class="list-video"></div>
     </div>

@@ -5,10 +5,14 @@ class Ytvideo{
         this.playlist = config.playlist || [];
         // this.ifram = config.ifram;
         this.listVideo = this.element.querySelector(".list-video");
-        this.player = config.player
+       
         this.dataVideo = [];
         this.playnow = 0;
         this.isDone = false;
+        this.displayListNow = [];
+    }
+    setPlayer(player){
+        this.player = player;
     }
     //pencarian
     search(url){
@@ -28,13 +32,21 @@ class Ytvideo{
                     }
                 }
             });
-            this.display();           
+            this.display("search");           
         })
     }
     //menampilkan video ke halaman
-    display(){
+    display(type){
+        if(type === "history"){
+            this.displayListNow = this.history;
+        }else if(type === "playlist"){
+            this.displayListNow = this.playlist;
+        }else if(type === "search"){
+            this.displayListNow = this.dataVideo
+        }
+
         this.listVideo.innerHTML = "";
-        this.dataVideo.forEach((vid,key)=>{
+        this.displayListNow.forEach((vid,key)=>{
             const btn = document.createElement("button");
             btn.addEventListener("click",()=>{
                 this.playnow = key;
@@ -55,21 +67,21 @@ class Ytvideo{
     playVideo(idVideo){        
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
-        this.player.loadVideoById(this.dataVideo[idVideo].id.videoId);   
-        
+        this.player.loadVideoById(this.displayListNow[idVideo].id.videoId);   
+        console.log(this.displayListNow[idVideo].id.videoId)
         this.starLoop() 
     }
 
     //memulai looping untuk mengecek status video 0 jika sudah selesai
     starLoop(){
-        if(this.player.getPlayerState() === 0 || this.player.getPlayerState() === -1){
+        if(this.player.getPlayerState() === 0){
             console.log("video End")            
             setTimeout(()=>{
                 this.isDone = true;
             },1000)
             if(this.isDone){
                 this.playnow += 1;
-                if(this.playnow >= this.dataVideo.length){
+                if(this.playnow >= this.displayListNow.length){
                     this.playnow = 0;
                 }
                 this.playVideo(this.playnow);
@@ -89,8 +101,7 @@ class Ytvideo{
     //memuat halaman awal
     load(){
         if(this.history.length > 0 ){
-            this.dataVideo = this.history;
-            this.display();
+            this.display("history");
         }   
     }
 }

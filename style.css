@@ -1,13 +1,83 @@
+:root{
+    --red:#FF6969;
+    --blue:#A6D0DD;
+    --bg-secondary: #FFD3B0;
+    --bg-primary: #FFF9DE;
+    --white: rgb(241, 238, 238);
+    --black: rgba(31, 30, 30, 0.897);
+}
 *{
     box-sizing: border-box;
     padding: 0px;
     margin: 0px;
+    color: var(--black);
+}
+button{
+    cursor: pointer;
 }
 body{
     padding: 10px;
+    background-color: var(--bg-primary);
 }
 .d-none{
     display: none !important;
+}
+.input-search{
+    max-width: 900px;
+    margin: auto;
+}
+.input-search > input{
+    padding: 5px;
+    border: 1px solid var(--bg-secondary);
+    border-radius: 5px;
+}
+.logo{
+    width: 80px;
+    vertical-align: middle;
+}
+.cari-btn{
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--red);
+    color: var(--white);
+}
+.setting-btn{
+    float: right;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--blue);
+    color: var(--white);
+    margin-top: 3px;
+}
+.setting-btn i{
+    color: var(--black);
+}
+.menu{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+.btn-menu{
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    position: relative;
+    font-weight: 900;
+}
+.active{
+    color: var(--red);
+}
+.active::after{
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    height: 3px;
+    left: 0;
+    width: 100%;
+    right: 0px;
+    background-color: var(--red);
 }
 .loading{
     z-index: 99;
@@ -39,15 +109,27 @@ body{
     display: flex;
     gap: 10px;
     max-width: 900px;
-    margin: 35px auto;
+    margin: 15px auto;
     flex-flow: wrap;
 }
 .btn-video{
-    background-color: cadetblue;
+    background-color: var(--blue);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
     flex: 1 1 30%;
-    padding: 0px 5px 10px 5px;
+    position: relative;
+    max-height: 300px;
+    overflow: hidden;
+}
+.btn-video img{
+ /* width: 100%;  */
+ /* width: 200px; */
+ /* height: 100px; */
+ /* z-index: -1; */
+}
+.btn-video p{
+    background-color: var(--blue);
+    padding: 3px;
 }
