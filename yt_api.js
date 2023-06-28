@@ -11,7 +11,7 @@ window.addEventListener("load", () => {
         navigator.serviceWorker.register("./service-worker.js");
     }
 });
-  
+
 //menyiapkan iframe video
 async function onYouTubeIframeAPIReady(){
     player = await new YT.Player('video-player')
@@ -34,3 +34,5 @@ async function onYouTubeIframeAPIReady(){
 
     loading.classList.add("d-none")
 }
+
+loading.classList.add("d-none")
