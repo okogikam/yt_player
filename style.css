@@ -43,7 +43,7 @@ body{
     color: var(--white);
 }
 .setting-btn{
-    float: right;
+    /* float: right; */
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -93,9 +93,9 @@ body{
     justify-content: center;
 }
 .video-player{
-    position: sticky;
-    top: 0;
-    background-color: white;
+    /* position: sticky;
+    top: 0; */
+    background-color: var(--bg-primary);
     z-index: 9;
     display: flex;
     justify-content: center;
@@ -122,12 +122,6 @@ body{
     position: relative;
     max-height: 300px;
     overflow: hidden;
-}
-.btn-video img{
- /* width: 100%;  */
- /* width: 200px; */
- /* height: 100px; */
- /* z-index: -1; */
 }
 .btn-video p{
     background-color: var(--blue);

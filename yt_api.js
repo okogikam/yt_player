@@ -34,6 +34,7 @@ function menubtn(type){
 }
 //menyiapkan iframe video
 async function onYouTubeIframeAPIReady(){
+    loading.classList.remove("d-none")
     player = new YT.Player('video-player')
 
     Ytsearch.setPlayer(player)
@@ -49,4 +50,4 @@ async function onYouTubeIframeAPIReady(){
     loading.classList.add("d-none")
 }
 
-loading.classList.add("d-none")
+// loading.classList.add("d-none")
