@@ -22,10 +22,7 @@ class Ytvideo{
             this.dataVideo = [];
             let videos =data.items
             Object.values(videos).forEach(video=>{
-                if(video.id.kind === "youtube#video"){
-                    this.dataVideo.push(video);
-
-                }
+                this.dataVideo.push(video);
             });
             this.display("search");           
         })
