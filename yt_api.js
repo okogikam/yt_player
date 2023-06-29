@@ -17,7 +17,9 @@ const Ytsearch = new Ytvideo({
     history: historyVideo
 })
 
-
+if(typeof player === "object"){
+    loading.classList.add("d-none");
+}
 
 window.addEventListener("load", () => {
     if ("serviceWorker" in navigator) {
@@ -46,24 +48,18 @@ function menubtn(type){
     Ytsearch.display(type);
 }
 //menyiapkan iframe video
-// 1. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+// console.log(Ytsearch.listIdVideo);
 // 2. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 function onYouTubeIframeAPIReady(){
     loading.classList.remove("d-none")
     player = new YT.Player('video-player',{
         playerVars: {
-            'playsinline': 1,
             'controls': 0
           },
         events:{
-            "onReady": onReadyPlayer
+            "onReady": onReadyPlayer,
+            "onError": onErrorPlayer
         }
     })    
 }
@@ -80,6 +76,10 @@ function onReadyPlayer(){
     Ytsearch.setPlayer(player)
     Ytsearch.load();
     loading.classList.add("d-none")
+}
+
+function onErrorPlayer(){
+    location.reload()
 }
 
 removeHistory.addEventListener("click",()=>{
