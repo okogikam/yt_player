@@ -13,6 +13,17 @@ class Ytvideo{
     setPlayer(player){
         this.player = player;
     }
+    setPlaylist(){
+        this.listIdVideo = [];
+        this.displayListNow.forEach(vid=>{
+            this.listIdVideo.push(vid.id.videoId);
+        })
+
+        this.player.cuePlaylist({
+            list:this.listIdVideo,
+            listType: "playlist"
+        });
+    }
     //pencarian
     search(url){
         fetch(url)
@@ -28,14 +39,16 @@ class Ytvideo{
         })
     }
     //menampilkan video ke halaman
-    display(type){
+    async display(type){
         if(type === "history"){
-            this.displayListNow = this.history;
+            this.displayListNow = this.history;        
         }else if(type === "playlist"){
             this.displayListNow = this.playlist;
         }else if(type === "search"){
             this.displayListNow = this.dataVideo
         }
+
+        this.setPlaylist()
 
         this.listVideo.innerHTML = "";
         this.displayListNow.forEach((vid,key)=>{
@@ -65,7 +78,6 @@ class Ytvideo{
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
         this.player.loadVideoById(this.displayListNow[idVideo].id.videoId); 
-        this.starLoop() 
     }
 
     //memulai looping untuk mengecek status video 0 jika sudah selesai
@@ -76,12 +88,13 @@ class Ytvideo{
                 this.isDone = true;
             },1000)
             if(this.isDone){
-                this.playnow += 1;
-                if(this.playnow >= this.displayListNow.length){
-                    this.playnow = 0;
-                }
-                this.playVideo(this.playnow);
-                this.isDone = false;
+                // this.playnow += 1;
+                // if(this.playnow >= this.displayListNow.length){
+                //     this.playnow = 0;
+                // }
+                // this.playVideo(this.playnow);
+                // this.isDone = false;
+                // this.player.nextVideo();
             }
         }
 
