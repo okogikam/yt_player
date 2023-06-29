@@ -3,7 +3,6 @@ class Ytvideo{
         this.element = config.element;
         this.history = config.history || [];
         this.playlist = config.playlist || [];
-        // this.ifram = config.ifram;
         this.listVideo = this.element.querySelector(".list-video");
        
         this.dataVideo = [];
@@ -26,10 +25,6 @@ class Ytvideo{
                 if(video.id.kind === "youtube#video"){
                     this.dataVideo.push(video);
 
-                    if(!this.history.find((v)=>(v.id.videoId == video.id.videoId))){
-                        this.history.push(video);
-                        this.saveHistory();
-                    }
                 }
             });
             this.display("search");           
@@ -64,11 +59,15 @@ class Ytvideo{
         })
     }
     //memutar video
-    playVideo(idVideo){        
+    playVideo(idVideo){          
+        if(!this.history.find((v)=>(v.id.videoId == this.displayListNow[idVideo].id.videoId))){
+            this.history.push(this.displayListNow[idVideo]);
+            this.saveHistory();
+        }
+
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
-        this.player.loadVideoById(this.displayListNow[idVideo].id.videoId);   
-        console.log(this.displayListNow[idVideo].id.videoId)
+        this.player.loadVideoById(this.displayListNow[idVideo].id.videoId); 
         this.starLoop() 
     }
 
@@ -96,6 +95,12 @@ class Ytvideo{
     //menyimpan history ke localhost
     saveHistory(){
         localStorage.setItem("history",JSON.stringify(this.history));
+    }
+    //menghapus history ke localhost
+    removeHistory(){
+        this.history = [];
+        this.saveHistory();
+        this.display("history")
     }
 
     //memuat halaman awal

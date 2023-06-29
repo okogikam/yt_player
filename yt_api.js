@@ -1,6 +1,11 @@
 // const api_link = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=anime&key=AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI";
 const searchBtn = document.querySelector(".cari-btn");
 const loading = document.querySelector(".loading");
+const settingbtn = document.querySelector(".setting-btn");
+const closesetting = document.querySelector(".close");
+const removeHistory = document.querySelector(".remove-history");
+const removePlailist = document.querySelector(".remove-playlist");
+const setting = document.querySelector(".setting");
 let btnMenu = document.querySelectorAll(".btn-menu");
 const historyVideo = localStorage.getItem("history") ? JSON.parse(localStorage.getItem("history")) : [];
 const Playlist = localStorage.getItem("playlist") ? JSON.parse(localStorage.getItem("playlist")) : [];
@@ -12,13 +17,21 @@ const Ytsearch = new Ytvideo({
     history: historyVideo
 })
 
-Ytsearch.load();
+
 
 window.addEventListener("load", () => {
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");
     }
 });
+
+settingbtn.addEventListener("click",()=>{
+    setting.classList.toggle("d-none");
+})
+
+closesetting.addEventListener("click",()=>{
+    setting.classList.toggle("d-none");
+})
 
 btnMenu.forEach((btn,i)=>{
     btn.addEventListener("click",()=>{
@@ -33,21 +46,30 @@ function menubtn(type){
     Ytsearch.display(type);
 }
 //menyiapkan iframe video
-async function onYouTubeIframeAPIReady(){
+function onYouTubeIframeAPIReady(){
     loading.classList.remove("d-none")
-    player = new YT.Player('video-player')
+    player = new YT.Player('video-player',{
+        events:{
+            "onReady": onReadyPlayer
+        }
+    })    
+}
 
+searchBtn.addEventListener("click",()=>{
+    console.log("cari")
+    let searchQuery = document.querySelector(".search").value;
+    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${searchQuery}&maxResults=9&type=video&key=AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI`
+    Ytsearch.search(url);
+    btnMenu[0].click()
+})
+
+function onReadyPlayer(){
     Ytsearch.setPlayer(player)
-
-    searchBtn.addEventListener("click",()=>{
-        console.log("cari")
-        let searchQuery = document.querySelector(".search").value;
-        let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${searchQuery}&maxResults=10&key=AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI`
-        Ytsearch.search(url);
-        btnMenu[0].click()
-    })
-
+    Ytsearch.load();
     loading.classList.add("d-none")
 }
 
+removeHistory.addEventListener("click",()=>{
+    Ytsearch.removeHistory();
+})
 // loading.classList.add("d-none")

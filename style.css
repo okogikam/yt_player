@@ -59,6 +59,13 @@ body{
     padding-bottom: 10px;
     text-align: center;
 }
+.btn{
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    position: relative;
+    font-weight: 900;
+}
 .btn-menu{
     background-color: transparent;
     border: none;
@@ -126,4 +133,23 @@ body{
 .btn-video p{
     background-color: var(--blue);
     padding: 3px;
+}
+.setting{
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 150px;
+    background-color: var(--blue);
+    padding-top: 30px;
+    padding-right: 10px;
+    text-align: right;
+}
+.close{
+    font-size: 1.5rem;
+    text-align: right;
+    /* width: 100%; */
+}
+.fa-circle-xmark{
+    color: var(--red);
 }
