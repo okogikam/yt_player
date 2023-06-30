@@ -66,7 +66,8 @@ function onYouTubeIframeAPIReady(){
     loading.classList.remove("d-none")
     player = new YT.Player('video-player',{
         playerVars: {
-            'controls': 0
+            'controls': 0,
+            'iv_load_policy':3
           },
         events:{
             "onReady": onReadyPlayer,
