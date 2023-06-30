@@ -70,7 +70,7 @@ class Ytvideo{
             <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
             </span>         
             <div class="card">
-             <div class="card-img" style="background-image:url(${vid.snippet.thumbnails.default.url})">
+             <div class="card-img" style="background-image:url(${vid.snippet.thumbnails.medium.url})">
              </div>
              <div class="card-body">
                 <p>${vid.snippet.title}</p>
