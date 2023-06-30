@@ -2,6 +2,7 @@
 const searchBtn = document.querySelector(".cari-btn");
 const loading = document.querySelector(".loading");
 const settingbtn = document.querySelector(".setting-btn");
+const autoPlaybtn = document.querySelector(".auto-play");
 const closesetting = document.querySelector(".close");
 const removeHistory = document.querySelector(".remove-history");
 const removePlailist = document.querySelector(".remove-playlist");
@@ -26,6 +27,16 @@ window.addEventListener("load", () => {
         navigator.serviceWorker.register("./service-worker.js");
     }
 });
+
+autoPlaybtn.addEventListener("click",()=>{
+    if(Ytsearch.autoPlay){
+        Ytsearch.autoPlay = false;
+        autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
+    }else{
+        Ytsearch.autoPlay = true;
+        autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
+    }
+})
 
 settingbtn.addEventListener("click",()=>{
     setting.classList.toggle("d-none");

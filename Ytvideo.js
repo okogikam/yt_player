@@ -4,7 +4,7 @@ class Ytvideo{
         this.history = config.history || [];
         this.playlist = config.playlist || [];
         this.listVideo = this.element.querySelector(".list-video");
-       
+        this.autoPlay = false;       
         this.dataVideo = [];
         this.playnow = 0;
         this.isDone = false;
@@ -48,24 +48,45 @@ class Ytvideo{
             this.displayListNow = this.dataVideo
         }
 
-        this.setPlaylist()
+        // this.setPlaylist()
 
         this.listVideo.innerHTML = "";
         this.displayListNow.forEach((vid,key)=>{
             const btn = document.createElement("button");
-            btn.addEventListener("click",()=>{
+            btn.classList.add('btn-video');
+            
+            // const img = new Image();
+            // img.src = vid.snippet.thumbnails.default.url;
+            // img.onload = ()=>{
+            //     btn.append(img);
+            //     btn.classList.add('btn-video');
+            //     btn.innerHTML += `
+            //     <p>${vid.snippet.title}</p>`
+            //     this.listVideo.append(btn);
+            // }
+            btn.innerHTML = `
+            <span>
+            <button class="btn add-playlist"><i class="fa-solid fa-headphones"></i></button>
+            <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
+            </span>         
+            <div class="card">
+             <div class="card-img" style="background-image:url(${vid.snippet.thumbnails.default.url})">
+             </div>
+             <div class="card-body">
+                <p>${vid.snippet.title}</p>
+             </div>
+            </div>
+            `;
+
+            btn.querySelector(".card").addEventListener("click",()=>{
                 this.playnow = key;
                 this.playVideo(key);
             })
-            const img = new Image();
-            img.src = vid.snippet.thumbnails.default.url;
-            img.onload = ()=>{
-                btn.append(img);
-                btn.classList.add('btn-video');
-                btn.innerHTML += `
-                <p>${vid.snippet.title}</p>`
-                this.listVideo.append(btn);
-            }
+            btn.querySelector(".add-playlist").addEventListener("click",()=>{
+                this.addPlaylist(vid);
+            })
+
+            this.listVideo.append(btn)
         })
     }
     //memutar video
@@ -87,14 +108,14 @@ class Ytvideo{
             setTimeout(()=>{
                 this.isDone = true;
             },1000)
-            if(this.isDone){
-                // this.playnow += 1;
-                // if(this.playnow >= this.displayListNow.length){
-                //     this.playnow = 0;
-                // }
-                // this.playVideo(this.playnow);
-                // this.isDone = false;
-                // this.player.nextVideo();
+            if(this.isDone && this.autoPlay){
+                this.playnow += 1;
+                if(this.playnow >= this.displayListNow.length){
+                    this.playnow = 0;
+                }
+                this.playVideo(this.playnow);
+                this.isDone = false;
+                this.player.nextVideo();
             }
         }
 
@@ -102,9 +123,23 @@ class Ytvideo{
             this.starLoop()
         })
     }
+    addPlaylist(vid){
+        const match = this.playlist.find(object=>{
+            return `${object.id.videoId}` === `${vid.id.videoId}`
+        });
+        if(match){
+            return
+        }
+        this.playlist.push(vid);
+        console.log("add to playlist")
+        this.savePlaylist()
+    }
     //menyimpan history ke localhost
     saveHistory(){
         localStorage.setItem("history",JSON.stringify(this.history));
+    }
+    savePlaylist(){
+        localStorage.setItem("playlist",JSON.stringify(this.playlist));
     }
     //menghapus history ke localhost
     removeHistory(){
