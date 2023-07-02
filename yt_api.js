@@ -32,10 +32,13 @@ autoPlaybtn.addEventListener("click",()=>{
     if(Ytsearch.autoPlay){
         Ytsearch.autoPlay = false;
         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
+        console.log(Ytsearch.autoPlay);
     }else{
         Ytsearch.autoPlay = true;
         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
+        console.log(Ytsearch.autoPlay);
     }
+    // console.log(Ytsearch.autoPlay)
 })
 
 settingbtn.addEventListener("click",()=>{
@@ -66,7 +69,7 @@ function onYouTubeIframeAPIReady(){
     loading.classList.remove("d-none")
     player = new YT.Player('video-player',{
         playerVars: {
-            'controls': 0,
+            'controls': 1,
             'iv_load_policy':3
           },
         events:{
@@ -77,12 +80,16 @@ function onYouTubeIframeAPIReady(){
 }
 
 searchBtn.addEventListener("click",()=>{
-    console.log("cari")
     let searchQuery = document.querySelector(".search").value;
-    let url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${searchQuery}&maxResults=9&type=video&key=AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI`
-    Ytsearch.search(url);
+    Ytsearch.search({
+        q: searchQuery,
+        type: "video",
+        maxResults: "9"
+    });
     btnMenu[0].click()
 })
+
+//&pageToken=CAUQAA
 
 function onReadyPlayer(){
     Ytsearch.setPlayer(player)

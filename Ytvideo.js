@@ -1,6 +1,9 @@
 class Ytvideo{
     constructor(config){
         this.element = config.element;
+        this.url = "https://youtube.googleapis.com/youtube/v3/search?part=snippet";
+        this.apiKey = "AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI";
+       
         this.history = config.history || [];
         this.playlist = config.playlist || [];
         this.listVideo = this.element.querySelector(".list-video");
@@ -12,6 +15,7 @@ class Ytvideo{
     }
     setPlayer(player){
         this.player = player;
+        this.starLoop();
     }
     setPlaylist(){
         this.listIdVideo = [];
@@ -25,7 +29,12 @@ class Ytvideo{
         });
     }
     //pencarian
-    search(url){
+    search(urlConfig){
+        this.q = urlConfig.q || "";
+        this.maxResults = urlConfig.maxResults || "";
+        this.type = urlConfig.type || "";
+        this.pageToken = urlConfig.pageToken || "";
+        const url = `${this.url}&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}&key=${this.apiKey}`
         fetch(url)
         .then((result)=>{
             return result.json()
@@ -35,8 +44,72 @@ class Ytvideo{
             Object.values(videos).forEach(video=>{
                 this.dataVideo.push(video);
             });
-            this.display("search");           
+            this.display("search"); 
+            this.pageToken =  data.nextPageToken;
+            this.displayLoadMore({
+                element: this.listVideo,
+                prev: data.prevPageToken ? data.prevPageToken : "",
+                next: data.nextPageToken ? data.nextPageToken : ""
+            })            
+            // console.log(data.nextPageToken)     
         })
+    }
+    searchMore(urlConfig){
+        this.q = urlConfig.q || "";
+        this.maxResults = urlConfig.maxResults || "";
+        this.type = urlConfig.type || "";
+        this.pageToken = urlConfig.pageToken || "";
+        const url = `${this.url}&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}&key=${this.apiKey}`
+        fetch(url)
+        .then((result)=>{
+            return result.json()
+        }).then((data)=>{
+            let videos =data.items
+            Object.values(videos).forEach(video=>{
+                this.dataVideo.push(video);
+            });
+            this.display("search"); 
+            this.pageToken =  data.nextPageToken;  
+            this.pageToken =  data.nextPageToken;
+            this.displayLoadMore({
+                element: this.listVideo,
+                prev: data.prevPageToken ? data.prevPageToken : "",
+                next: data.nextPageToken ? data.nextPageToken : ""
+            })  
+        })
+    }
+    displayLoadMore(loadConfig){
+        const div = document.createElement("div");
+        div.classList.add("more");
+        if(loadConfig.prev !== ""){
+            const btn = document.createElement("button");
+            btn.textContent = "Load Prev";
+            btn.classList.add("btn")
+            btn.classList.add("load-more");
+            div.appendChild(btn);
+        }
+
+        if(loadConfig.next !== ""){
+            const btn = document.createElement("button");
+            btn.textContent = "Load More";
+            btn.classList.add("btn")
+            btn.classList.add("load-more");
+            div.appendChild(btn);
+        }
+
+        div.querySelector(".load-more").addEventListener("click",()=>{
+            this.loadSearchResultMore();
+        })
+        loadConfig.element.appendChild(div);
+    }
+    loadSearchResultMore(){
+        this.searchMore({
+            q: this.q,
+            type: this.type,
+            maxResults : this.maxResults,
+            pageToken: this.pageToken,
+        })
+        this.display("search");
     }
     //menampilkan video ke halaman
     async display(type){
@@ -54,16 +127,6 @@ class Ytvideo{
         this.displayListNow.forEach((vid,key)=>{
             const btn = document.createElement("button");
             btn.classList.add('btn-video');
-            
-            // const img = new Image();
-            // img.src = vid.snippet.thumbnails.default.url;
-            // img.onload = ()=>{
-            //     btn.append(img);
-            //     btn.classList.add('btn-video');
-            //     btn.innerHTML += `
-            //     <p>${vid.snippet.title}</p>`
-            //     this.listVideo.append(btn);
-            // }
             btn.innerHTML = `
             <span>
             <button class="btn add-playlist"><i class="fa-solid fa-headphones"></i></button>
@@ -86,7 +149,7 @@ class Ytvideo{
                 this.addPlaylist(vid);
             })
 
-            this.listVideo.append(btn)
+            this.listVideo.append(btn)            
         })
     }
     //memutar video
@@ -107,7 +170,7 @@ class Ytvideo{
             console.log("video End")            
             setTimeout(()=>{
                 this.isDone = true;
-            },1000)
+            },800)
             if(this.isDone && this.autoPlay){
                 this.playnow += 1;
                 if(this.playnow >= this.displayListNow.length){
@@ -116,6 +179,7 @@ class Ytvideo{
                 this.playVideo(this.playnow);
                 this.isDone = false;
                 this.player.nextVideo();
+                console.log("next")
             }
         }
 
