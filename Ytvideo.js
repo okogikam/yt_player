@@ -78,6 +78,10 @@ class Ytvideo{
             })  
         })
     }
+    addTitile(titleConfig){
+        titleConfig.element.innerHTML = "";
+        titleConfig.element.innerHTML = `<p>${titleConfig.title}</p>`;
+    }
     displayLoadMore(loadConfig){
         const div = document.createElement("div");
         div.classList.add("more");
@@ -85,7 +89,7 @@ class Ytvideo{
             const btn = document.createElement("button");
             btn.textContent = "Load Prev";
             btn.classList.add("btn")
-            btn.classList.add("load-more");
+            btn.classList.add("d-none");
             div.appendChild(btn);
         }
 
@@ -158,6 +162,11 @@ class Ytvideo{
             this.history.push(this.displayListNow[idVideo]);
             this.saveHistory();
         }
+
+        this.addTitile({
+            element: this.element.querySelector("#title"),
+            title: this.displayListNow[idVideo].snippet.title
+        })
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
