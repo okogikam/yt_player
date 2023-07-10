@@ -28,6 +28,7 @@ class Ytvideo{
             listType: "playlist"
         });
     }
+    
     //pencarian
     search(urlConfig){
         this.q = urlConfig.q || "";
@@ -152,6 +153,9 @@ class Ytvideo{
             btn.querySelector(".add-playlist").addEventListener("click",()=>{
                 this.addPlaylist(vid);
             })
+            btn.querySelector(".remove-list").addEventListener("click",()=>{
+                this.deleteVideoList(type,key);
+            })
 
             this.listVideo.append(btn)            
         })
@@ -171,6 +175,22 @@ class Ytvideo{
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
         this.player.loadVideoById(this.displayListNow[idVideo].id.videoId); 
+    }
+    deleteVideoList(type,idVideo){
+        if(type === "history"){
+            this.history.splice(idVideo,1);
+            this.displayListNow = this.history;
+            this.saveHistory();        
+        }else if(type === "playlist"){
+            this.playlist.splice(idVideo,1);
+            this.displayListNow = this.playlist;
+            this.savePlaylist();
+        }else if(type === "search"){
+            this.dataVideo.splice(idVideo,1);
+            this.displayListNow = this.dataVideo
+        }
+
+        this.display(type);
     }
 
     //memulai looping untuk mengecek status video 0 jika sudah selesai
@@ -204,7 +224,6 @@ class Ytvideo{
             return
         }
         this.playlist.push(vid);
-        console.log("add to playlist")
         this.savePlaylist()
     }
     //menyimpan history ke localhost

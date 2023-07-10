@@ -66,7 +66,7 @@ function menubtn(type){
 // 2. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 function onYouTubeIframeAPIReady(){
-    loading.classList.remove("d-none")
+    // loading.classList.remove("d-none")
     player = new YT.Player('video-player',{
         playerVars: {
             'controls': 1,
