@@ -177,20 +177,36 @@ class Ytvideo{
         this.player.loadVideoById(this.displayListNow[idVideo].id.videoId); 
     }
     deleteVideoList(type,idVideo){
-        if(type === "history"){
-            this.history.splice(idVideo,1);
-            this.displayListNow = this.history;
-            this.saveHistory();        
-        }else if(type === "playlist"){
-            this.playlist.splice(idVideo,1);
-            this.displayListNow = this.playlist;
-            this.savePlaylist();
-        }else if(type === "search"){
-            this.dataVideo.splice(idVideo,1);
-            this.displayListNow = this.dataVideo
-        }
-
-        this.display(type);
+        const div = document.createElement("div");
+        div.classList.add("form-add-playlist");
+        div.innerHTML = `
+        <div class="playlist-card">
+        <p>${this.displayListNow[idVideo].snippet.title}</p>
+        <div class="playlist-img" style="background-image:url(${this.displayListNow[idVideo].snippet.thumbnails.medium.url})"></div>
+        <button type="button" class="btn-add-palylist">Delete</button>
+        <button type="button" class="btn cancel">Cancel</button>
+        </div>
+        `;
+        div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
+            if(type === "history"){
+                this.history.splice(idVideo,1);
+                this.displayListNow = this.history;
+                this.saveHistory();        
+            }else if(type === "playlist"){
+                this.playlist.splice(idVideo,1);
+                this.displayListNow = this.playlist;
+                this.savePlaylist();
+            }else if(type === "search"){
+                this.dataVideo.splice(idVideo,1);
+                this.displayListNow = this.dataVideo
+            }
+            this.display(type);
+            div.remove();
+        })
+        div.querySelector(".cancel").addEventListener("click",()=>{
+            div.remove();
+        })
+        this.element.appendChild(div);        
     }
 
     //memulai looping untuk mengecek status video 0 jika sudah selesai
@@ -217,14 +233,32 @@ class Ytvideo{
         })
     }
     addPlaylist(vid){
-        const match = this.playlist.find(object=>{
-            return `${object.id.videoId}` === `${vid.id.videoId}`
-        });
-        if(match){
-            return
-        }
-        this.playlist.push(vid);
-        this.savePlaylist()
+        const div = document.createElement("div");
+        div.classList.add("form-add-playlist");
+        div.innerHTML = `
+        <div class="playlist-card">
+        <input name="playlist-name" type="text">
+        <p>${vid.snippet.title}</p>
+        <div class="playlist-img" style="background-image:url(${vid.snippet.thumbnails.medium.url})"></div>
+        <button type="button" class="btn-add-palylist">Add Playlist</button>
+        <button type="button" class="btn cancel">Cancel</button>
+        </div>
+        `;
+        div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
+            div.remove("")
+            const match = this.playlist.find(object=>{
+                return `${object.id.videoId}` === `${vid.id.videoId}`
+            });
+            if(match){
+                return
+            }
+            this.playlist.push(vid);
+            this.savePlaylist()
+        })
+        div.querySelector(".cancel").addEventListener("click",()=>{
+            div.remove("")
+        })
+        this.element.append(div);
     }
     //menyimpan history ke localhost
     saveHistory(){
