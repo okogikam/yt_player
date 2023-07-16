@@ -104,4 +104,7 @@ function onErrorPlayer(){
 removeHistory.addEventListener("click",()=>{
     Ytsearch.removeHistory();
 })
+removePlailist.addEventListener("click",()=>{
+    Ytsearch.removePlaylist();
+})
 // loading.classList.add("d-none")

@@ -118,16 +118,25 @@ class Ytvideo{
     }
     //menampilkan video ke halaman
     async display(type){
+        this.listVideo.classList.remove("playlist");
         if(type === "history"){
-            this.displayListNow = this.history;        
+            this.displayListNow = this.history;    
+            this.displayHistory();    
         }else if(type === "playlist"){
-            this.displayListNow = this.playlist;
+            const playlistVideo = new PlaylistVideo({
+                element: this.element,
+                ytVideo: this,
+                playlist: this.playlist
+            })
+            playlistVideo.displayPlaylist();
         }else if(type === "search"){
-            this.displayListNow = this.dataVideo
+            this.displayListNow = this.dataVideo;
+            this.displayHistory();
         }
-
-        // this.setPlaylist()
-
+        // this.setPlaylist()        
+    }
+    
+    displayHistory(){
         this.listVideo.innerHTML = "";
         this.displayListNow.forEach((vid,key)=>{
             const btn = document.createElement("button");
@@ -232,46 +241,115 @@ class Ytvideo{
             this.starLoop()
         })
     }
-    addPlaylist(vid){
+    async addPlaylist(vid){
+
         const div = document.createElement("div");
         div.classList.add("form-add-playlist");
         div.innerHTML = `
         <div class="playlist-card">
-        <input name="playlist-name" type="text">
+        <input class="playlist-name" name="playlist-name" type="text" list="list-playlist">
         <p>${vid.snippet.title}</p>
         <div class="playlist-img" style="background-image:url(${vid.snippet.thumbnails.medium.url})"></div>
         <button type="button" class="btn-add-palylist">Add Playlist</button>
         <button type="button" class="btn cancel">Cancel</button>
         </div>
         `;
+
+        
+
+        const dataList = document.createElement("datalist");
+        Object.keys(this.playlist).forEach(key=>{
+            const option = document.createElement("option");
+            option.value = key;
+            option.innerText = `${key}`;
+            dataList.appendChild(option);
+        })
+
         div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
+            const key = div.querySelector(".playlist-name").value;
             div.remove("")
-            const match = this.playlist.find(object=>{
-                return `${object.id.videoId}` === `${vid.id.videoId}`
-            });
-            if(match){
-                return
-            }
-            this.playlist.push(vid);
-            this.savePlaylist()
+            
+            // console.log(key);
+            this.savePlaylist(key,vid);
+
+            console.log(this.playlist);
+            localStorage.setItem("playlist",JSON.stringify(this.playlist));;
+            
+            
         })
         div.querySelector(".cancel").addEventListener("click",()=>{
             div.remove("")
         })
+
         this.element.append(div);
+        this.element.append(dataList)
     }
     //menyimpan history ke localhost
     saveHistory(){
         localStorage.setItem("history",JSON.stringify(this.history));
     }
-    savePlaylist(){
-        localStorage.setItem("playlist",JSON.stringify(this.playlist));
+    savePlaylist(key,vid){
+        //save to this playlist
+        //cek jika playlist kosong
+        if(Object.keys(this.playlist).length === 0 || this.playlist.length === 0){            
+            this.playlist.push({
+                [`${key}`]:[{
+                    title: vid.snippet.title,
+                    videoId: vid.id.videoId,
+                    thumbnails: vid.snippet.thumbnails
+                }]
+            })
+            return;
+        }
+        //cek jika ada nama playlist yg sama
+        const keyMatch = Object.values(this.playlist).find(obj=>{
+            return obj[`${key}`] ? true : false;
+        })
+        if(!keyMatch){
+            // jika tidak ada yang sama
+            this.playlist.push({
+                [`${key}`]:[{
+                    title: vid.snippet.title,
+                    videoId: vid.id.videoId,
+                    thumbnails: vid.snippet.thumbnails
+                }]
+            })
+            return;
+        }
+        if(keyMatch){
+            // jika ada yg sama
+            Object.values(this.playlist).forEach(obj=>{
+                Object.keys(obj).find(k=>{
+                    if(`${k}` === `${key}`){
+                        const cekVideoAda = Object.values(obj[`${key}`]).find(v=>{
+                            return `${v.videoId}` === `${vid.id.videoId}`;
+                        })
+                        console.log(obj);
+                        if(!cekVideoAda){
+                            obj[`${key}`].push({
+                                 title: vid.snippet.title,
+                                 videoId: vid.id.videoId,
+                                 thumbnails: vid.snippet.thumbnails
+                            }) 
+                        }
+                    }
+                })
+            })
+            console.log("ada yg sama")
+            return;
+        }
+        
     }
     //menghapus history ke localhost
     removeHistory(){
         this.history = [];
         this.saveHistory();
         this.display("history")
+    }
+    removePlaylist(){
+        this.playlist = [];
+        this.savePlaylist();
+        // this.display("playlist")
     }
 
     //memuat halaman awal

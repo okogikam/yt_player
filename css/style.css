@@ -175,7 +175,7 @@ div.more{
     color: var(--red);
 }
 
-.card{
+.card, .card-video-detal{
     width: 100%;
     max-width: 300px;
     background-color: var(--blue);
@@ -190,6 +190,7 @@ div.more{
     height: 150px;
     background-repeat: no-repeat;
     background-size: cover;
+    position: relative;
 }
 .btn-video span{
     display: flex;
@@ -250,12 +251,13 @@ div.more{
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 10px;
+    
 }
 .playlist-img{
     width:300px;
     height:150px;
     background-repeat: no-repeat;
-    margin: 10px;
+    margin: 10px;    
 }
 .btn-add-palylist{
     background-color: var(--blue);
@@ -264,4 +266,45 @@ div.more{
     position: relative;
     font-weight: 900;
     border-radius: 5px;
+}
+.video-num{
+    position: absolute;
+    background-color: rgba(8,8,8,0.85);
+    color: var(--white);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+.video-num .fa-solid{
+    color: var(--white);    
+}
+.playlist{
+    background-color: var(--black);
+    padding: 10px;
+}
+.playlist .title{
+    color: white;
+    width: 100%;
+    text-transform: uppercase;
+}
+.playlist .btn-video{
+    flex: 1 1 100% !important;
+}
+.playlist .card-video-detal{
+    max-width: 100%;
+    display: flex;
+}
+.playlist .card-img{
+    flex: 1 1 30%;
+}
+.playlist .card-body{
+    flex: 1 1 70%;
+    padding-left: 10px;
+}
+.playlist .card-body p{
+    text-align: left;
 }
