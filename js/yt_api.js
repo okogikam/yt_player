@@ -105,6 +105,6 @@ removeHistory.addEventListener("click",()=>{
     Ytsearch.removeHistory();
 })
 removePlailist.addEventListener("click",()=>{
-    Ytsearch.removePlaylist();
+    Ytsearch.playlistVideo.removePlaylist();
 })
 // loading.classList.add("d-none")

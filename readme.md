@@ -6,7 +6,7 @@
 
 - [ ] tampilan aplikasi
 - [x] menu untuk menampilkan hasil pencarian, playlist, dan history
-- [ ] menambah **playlist**
+- [x] menambah **playlist**
 - [x] menampilkan hasil pencarian berikutnya
 - [x] menghapus playlist dan history
 - [x] play video dari hasil pencarian, playlist, atau history

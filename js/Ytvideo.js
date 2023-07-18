@@ -5,7 +5,11 @@ class Ytvideo{
         this.apiKey = "AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI";
        
         this.history = config.history || [];
-        this.playlist = config.playlist || [];
+        this.playlistVideo = new PlaylistVideo({
+            element: this.element,
+            ytVideo: this,
+            playlist: config.playlist ||[]
+        })
         this.listVideo = this.element.querySelector(".list-video");
         this.autoPlay = false;       
         this.dataVideo = [];
@@ -121,22 +125,18 @@ class Ytvideo{
         this.listVideo.classList.remove("playlist");
         if(type === "history"){
             this.displayListNow = this.history;    
-            this.displayHistory();    
+            this.displayHistory(type);    
         }else if(type === "playlist"){
-            const playlistVideo = new PlaylistVideo({
-                element: this.element,
-                ytVideo: this,
-                playlist: this.playlist
-            })
-            playlistVideo.displayPlaylist();
+            
+            this.playlistVideo.displayPlaylist();
         }else if(type === "search"){
             this.displayListNow = this.dataVideo;
-            this.displayHistory();
+            this.displayHistory(type);
         }
         // this.setPlaylist()        
     }
     
-    displayHistory(){
+    displayHistory(type){
         this.listVideo.innerHTML = "";
         this.displayListNow.forEach((vid,key)=>{
             const btn = document.createElement("button");
@@ -160,7 +160,7 @@ class Ytvideo{
                 this.playVideo(key);
             })
             btn.querySelector(".add-playlist").addEventListener("click",()=>{
-                this.addPlaylist(vid);
+                this.playlistVideo.addPlaylist(vid);
             })
             btn.querySelector(".remove-list").addEventListener("click",()=>{
                 this.deleteVideoList(type,key);
@@ -201,10 +201,6 @@ class Ytvideo{
                 this.history.splice(idVideo,1);
                 this.displayListNow = this.history;
                 this.saveHistory();        
-            }else if(type === "playlist"){
-                this.playlist.splice(idVideo,1);
-                this.displayListNow = this.playlist;
-                this.savePlaylist();
             }else if(type === "search"){
                 this.dataVideo.splice(idVideo,1);
                 this.displayListNow = this.dataVideo
@@ -240,117 +236,19 @@ class Ytvideo{
         requestAnimationFrame(()=>{
             this.starLoop()
         })
-    }
-    async addPlaylist(vid){
-
-        const div = document.createElement("div");
-        div.classList.add("form-add-playlist");
-        div.innerHTML = `
-        <div class="playlist-card">
-        <input class="playlist-name" name="playlist-name" type="text" list="list-playlist">
-        <p>${vid.snippet.title}</p>
-        <div class="playlist-img" style="background-image:url(${vid.snippet.thumbnails.medium.url})"></div>
-        <button type="button" class="btn-add-palylist">Add Playlist</button>
-        <button type="button" class="btn cancel">Cancel</button>
-        </div>
-        `;
-
-        
-
-        const dataList = document.createElement("datalist");
-        Object.keys(this.playlist).forEach(key=>{
-            const option = document.createElement("option");
-            option.value = key;
-            option.innerText = `${key}`;
-            dataList.appendChild(option);
-        })
-
-        div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
-            const key = div.querySelector(".playlist-name").value;
-            div.remove("")
-            
-            // console.log(key);
-            this.savePlaylist(key,vid);
-
-            console.log(this.playlist);
-            localStorage.setItem("playlist",JSON.stringify(this.playlist));;
-            
-            
-        })
-        div.querySelector(".cancel").addEventListener("click",()=>{
-            div.remove("")
-        })
-
-        this.element.append(div);
-        this.element.append(dataList)
-    }
+    }    
     //menyimpan history ke localhost
     saveHistory(){
         localStorage.setItem("history",JSON.stringify(this.history));
     }
-    savePlaylist(key,vid){
-        //save to this playlist
-        //cek jika playlist kosong
-        if(Object.keys(this.playlist).length === 0 || this.playlist.length === 0){            
-            this.playlist.push({
-                [`${key}`]:[{
-                    title: vid.snippet.title,
-                    videoId: vid.id.videoId,
-                    thumbnails: vid.snippet.thumbnails
-                }]
-            })
-            return;
-        }
-        //cek jika ada nama playlist yg sama
-        const keyMatch = Object.values(this.playlist).find(obj=>{
-            return obj[`${key}`] ? true : false;
-        })
-        if(!keyMatch){
-            // jika tidak ada yang sama
-            this.playlist.push({
-                [`${key}`]:[{
-                    title: vid.snippet.title,
-                    videoId: vid.id.videoId,
-                    thumbnails: vid.snippet.thumbnails
-                }]
-            })
-            return;
-        }
-        if(keyMatch){
-            // jika ada yg sama
-            Object.values(this.playlist).forEach(obj=>{
-                Object.keys(obj).find(k=>{
-                    if(`${k}` === `${key}`){
-                        const cekVideoAda = Object.values(obj[`${key}`]).find(v=>{
-                            return `${v.videoId}` === `${vid.id.videoId}`;
-                        })
-                        console.log(obj);
-                        if(!cekVideoAda){
-                            obj[`${key}`].push({
-                                 title: vid.snippet.title,
-                                 videoId: vid.id.videoId,
-                                 thumbnails: vid.snippet.thumbnails
-                            }) 
-                        }
-                    }
-                })
-            })
-            console.log("ada yg sama")
-            return;
-        }
-        
-    }
+    
     //menghapus history ke localhost
     removeHistory(){
         this.history = [];
         this.saveHistory();
         this.display("history")
     }
-    removePlaylist(){
-        this.playlist = [];
-        this.savePlaylist();
-        // this.display("playlist")
-    }
+    
 
     //memuat halaman awal
     load(){
