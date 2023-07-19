@@ -299,10 +299,10 @@ div.more{
     display: flex;
 }
 .playlist .card-img{
-    flex: 1 1 30%;
+    flex: 1 1 40%;
 }
 .playlist .card-body{
-    flex: 1 1 70%;
+    flex: 1 1 60%;
     padding-left: 10px;
 }
 .playlist .card-body p{
