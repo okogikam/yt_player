@@ -10,38 +10,40 @@
     <link rel="manifest" href="./manifest.json" crossorigin="use-credentials" />
     <script src="https://kit.fontawesome.com/a121d47811.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="d-flex">
     <div class="loading">
         <img src="./img/Loading_2.gif" alt="">
     </div>
-    <div class="input-search">
-        <label for="cari"><img src="./img/logo.png" class="logo"></label>
-        <input type="text" class="search" id="cari" placeholder="Pencarian">
-        <button class="cari-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-        <button class="setting-btn"><i class="fa-solid fa-gear"></i></button>
-    </div>
-    
-    <!-- video result  -->
-    <div class="result">
-        <!-- video player  -->
-        <div class="video-player d-none">
-            <div id="title"></div>
-            <div id="video-player"></div>
-            <!-- <iframe id="video-player" type="text/html" width="640" height="390"
-            src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1"
-            frameborder="0"></iframe> -->
+    <main>
+        <div class="input-search">
+            <label for="cari"><img src="./img/logo.png" class="logo"></label>
+            <input type="text" class="search" id="cari" placeholder="Pencarian">
+            <button class="cari-btn"><i class="fa-solid fa-magnifying-glass"></i></button>            
         </div>
-        <!-- menu  -->
-        <div class="menu">
-            <button class="btn-menu" data-type="search">Search</button>
-            <button class="btn-menu" data-type="playlist">Playlist</button>
-            <button class="btn-menu active" data-type="history">History</button>
-            <button class="btn auto-play" data-type="auto-play" title="Auto Play"><i class="fa-solid fa-toggle-off"></i></button>
+        
+        <!-- video result  -->
+        <div class="result">
+            <!-- video player  -->
+            <div class="video-player d-none">
+                <div id="title"></div>
+                <div id="video-player"></div>
+                <!-- <iframe id="video-player" type="text/html" width="640" height="390"
+                src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1"
+                frameborder="0"></iframe> -->
+            </div>
+            <!-- menu  -->
+            <div class="menu">
+                <button class="btn-menu active" data-type="search">Search</button>
+                <button class="btn-menu" data-type="playlist">Playlist</button>
+                <button class="btn-menu" data-type="history">History</button>
+                <!-- <button class="btn auto-play" data-type="auto-play" title="Auto Play"><i class="fa-solid fa-toggle-off"></i></button> -->
+                <button class="btn setting-btn"><i class="fa-solid fa-gear"></i></button>
+            </div>
+            <!-- video list  -->
+            <div class="list-video"></div>
+            <!-- <button class="btn">Load More</button> -->
         </div>
-        <!-- video list  -->
-        <div class="list-video"></div>
-        <!-- <button class="btn">Load More</button> -->
-    </div>
+    </main>
     <!-- setting  -->
     <aside class="setting d-none">        
         <button class="btn close"><i class="fa-regular fa-circle-xmark"></i></button><br>

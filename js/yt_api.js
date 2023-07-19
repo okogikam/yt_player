@@ -1,8 +1,9 @@
 // const api_link = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=anime&key=AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI";
+const domain = location.origin;
 const searchBtn = document.querySelector(".cari-btn");
 const loading = document.querySelector(".loading");
 const settingbtn = document.querySelector(".setting-btn");
-const autoPlaybtn = document.querySelector(".auto-play");
+// const autoPlaybtn = document.querySelector(".auto-play");
 const closesetting = document.querySelector(".close");
 const removeHistory = document.querySelector(".remove-history");
 const removePlailist = document.querySelector(".remove-playlist");
@@ -12,8 +13,9 @@ const historyVideo = localStorage.getItem("history") ? JSON.parse(localStorage.g
 const Playlist = localStorage.getItem("playlist") ? JSON.parse(localStorage.getItem("playlist")) : [];
 let player
 
+
 const Ytsearch = new Ytvideo({
-    element: document.querySelector(".result"),    
+    element: document.querySelector("body"),    
     playlist: Playlist,
     history: historyVideo
 })
@@ -22,24 +24,23 @@ if(typeof player === "object"){
     loading.classList.add("d-none");
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
     if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./service-worker.js");
+       await navigator.serviceWorker.register("./service-worker.js");
     }
 });
 
-autoPlaybtn.addEventListener("click",()=>{
-    if(Ytsearch.autoPlay){
-        Ytsearch.autoPlay = false;
-        autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
-        console.log(Ytsearch.autoPlay);
-    }else{
-        Ytsearch.autoPlay = true;
-        autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
-        console.log(Ytsearch.autoPlay);
-    }
-    // console.log(Ytsearch.autoPlay)
-})
+// autoPlaybtn.addEventListener("click",()=>{
+//     if(Ytsearch.autoPlay){
+//         Ytsearch.autoPlay = false;
+//         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
+//         console.log(Ytsearch.autoPlay);
+//     }else{
+//         Ytsearch.autoPlay = true;
+//         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
+//         console.log(Ytsearch.autoPlay);
+//     }
+// })
 
 settingbtn.addEventListener("click",()=>{
     setting.classList.toggle("d-none");
@@ -66,15 +67,17 @@ function menubtn(type){
 // 2. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 function onYouTubeIframeAPIReady(){
-    // loading.classList.remove("d-none")
+    loading.classList.remove("d-none")
     player = new YT.Player('video-player',{
         playerVars: {
             'controls': 1,
-            'iv_load_policy':3
-          },
+            'iv_load_policy':3,
+            'listType': 'playlist',
+            'origin': domain,
+          },         
         events:{
             "onReady": onReadyPlayer,
-            "onError": onErrorPlayer
+            "onError": onErrorPlayer,
         }
     })    
 }
@@ -107,4 +110,5 @@ removeHistory.addEventListener("click",()=>{
 removePlailist.addEventListener("click",()=>{
     Ytsearch.playlistVideo.removePlaylist();
 })
+
 // loading.classList.add("d-none")

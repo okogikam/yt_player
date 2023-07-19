@@ -19,6 +19,13 @@ body{
     padding: 10px;
     background-color: var(--bg-primary);
 }
+.d-flex{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
 .d-none{
     display: none !important;
 }
@@ -26,6 +33,7 @@ body{
     width: 100%;
     max-width: 900px;
     margin: auto;
+    text-align: center;
 }
 .input-search > input{
     padding: 5px;
@@ -43,8 +51,7 @@ body{
     background-color: var(--red);
     color: var(--white);
 }
-.setting-btn{
-    /* float: right; */
+/* .setting-btn{
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -54,7 +61,7 @@ body{
 }
 .setting-btn i{
     color: var(--black);
-}
+} */
 .menu{
     padding-top: 10px;
     padding-bottom: 10px;
@@ -128,6 +135,7 @@ body{
 }
 div.more{
     width: 100%;
+    text-align: center;
 }
 .load-more{
     padding: 10px;

@@ -16,6 +16,8 @@ class Ytvideo{
         this.playnow = 0;
         this.isDone = false;
         this.displayListNow = [];
+        this.isPlaying = false;
+        this.dataVideo = [];
     }
     setPlayer(player){
         this.player = player;
@@ -44,43 +46,13 @@ class Ytvideo{
         .then((result)=>{
             return result.json()
         }).then((data)=>{
-            this.dataVideo = [];
-            let videos =data.items
+            let videos = data.items;
+
             Object.values(videos).forEach(video=>{
                 this.dataVideo.push(video);
             });
-            this.display("search"); 
             this.pageToken =  data.nextPageToken;
-            this.displayLoadMore({
-                element: this.listVideo,
-                prev: data.prevPageToken ? data.prevPageToken : "",
-                next: data.nextPageToken ? data.nextPageToken : ""
-            })            
-            // console.log(data.nextPageToken)     
-        })
-    }
-    searchMore(urlConfig){
-        this.q = urlConfig.q || "";
-        this.maxResults = urlConfig.maxResults || "";
-        this.type = urlConfig.type || "";
-        this.pageToken = urlConfig.pageToken || "";
-        const url = `${this.url}&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}&key=${this.apiKey}`
-        fetch(url)
-        .then((result)=>{
-            return result.json()
-        }).then((data)=>{
-            let videos =data.items
-            Object.values(videos).forEach(video=>{
-                this.dataVideo.push(video);
-            });
-            this.display("search"); 
-            this.pageToken =  data.nextPageToken;  
-            this.pageToken =  data.nextPageToken;
-            this.displayLoadMore({
-                element: this.listVideo,
-                prev: data.prevPageToken ? data.prevPageToken : "",
-                next: data.nextPageToken ? data.nextPageToken : ""
-            })  
+            this.display("search");        
         })
     }
     addTitile(titleConfig){
@@ -112,7 +84,7 @@ class Ytvideo{
         loadConfig.element.appendChild(div);
     }
     loadSearchResultMore(){
-        this.searchMore({
+        this.search({
             q: this.q,
             type: this.type,
             maxResults : this.maxResults,
@@ -122,18 +94,22 @@ class Ytvideo{
     }
     //menampilkan video ke halaman
     async display(type){
+        
+        //display video
         this.listVideo.classList.remove("playlist");
         if(type === "history"){
-            this.displayListNow = this.history;    
+            this.displayListNow = this.history; 
+            this.removeFlex();   
             this.displayHistory(type);    
-        }else if(type === "playlist"){
-            
+        }else if(type === "playlist"){    
+            this.displayListNow = this.playlistVideo.playlist;        
             this.playlistVideo.displayPlaylist();
+            this.removeFlex();  
         }else if(type === "search"){
             this.displayListNow = this.dataVideo;
+            this.removeFlex();       
             this.displayHistory(type);
-        }
-        // this.setPlaylist()        
+        }      
     }
     
     displayHistory(type){
@@ -154,7 +130,7 @@ class Ytvideo{
              </div>
             </div>
             `;
-
+            
             btn.querySelector(".card").addEventListener("click",()=>{
                 this.playnow = key;
                 this.playVideo(key);
@@ -168,9 +144,27 @@ class Ytvideo{
 
             this.listVideo.append(btn)            
         })
+
+        if(this.pageToken != undefined && this.pageToken != "" && this.pageToken != null){
+            this.displayLoadMore({
+                element: this.listVideo,
+                prev: "",
+                next: this.pageToken,
+            })    
+        }
+
+       
+    }
+    removeFlex(){
+        if(this.isPlaying || this.displayListNow.length > 0){
+            this.element.classList.remove("d-flex");            
+        }else{
+            this.element.classList.add("d-flex");
+        }   
     }
     //memutar video
-    playVideo(idVideo){          
+    playVideo(idVideo){   
+        this.isPlaying = true;       
         if(!this.history.find((v)=>(v.id.videoId == this.displayListNow[idVideo].id.videoId))){
             this.history.push(this.displayListNow[idVideo]);
             this.saveHistory();
@@ -253,7 +247,7 @@ class Ytvideo{
     //memuat halaman awal
     load(){
         if(this.history.length > 0 ){
-            this.display("history");
+            this.display("search");
         }   
     }
 }
