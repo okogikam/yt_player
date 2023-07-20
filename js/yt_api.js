@@ -17,9 +17,10 @@ let player
 const Ytsearch = new Ytvideo({
     element: document.querySelector("body"),    
     playlist: Playlist,
-    history: historyVideo
+    history: historyVideo,
+    url: "http://localhost/yt_player/api.php?",
 })
-
+// console.log(window.origin + "/yt_player/api.php?")
 if(typeof player === "object"){
     loading.classList.add("d-none");
 }
@@ -73,7 +74,8 @@ function onYouTubeIframeAPIReady(){
             'controls': 1,
             'iv_load_policy':3,
             'listType': 'playlist',
-            'origin': domain,
+            'origin': "https://hancau.net/api/",
+            'rel': 0
           },         
         events:{
             "onReady": onReadyPlayer,

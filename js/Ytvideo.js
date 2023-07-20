@@ -1,8 +1,8 @@
 class Ytvideo{
     constructor(config){
         this.element = config.element;
-        this.url = "https://youtube.googleapis.com/youtube/v3/search?part=snippet";
-        this.apiKey = "AIzaSyCHjRJIK4diEwjSvJe1zPgarVhmuItQtZI";
+        // this.url = "https://youtube.googleapis.com/youtube/v3/search?part=snippet";
+        this.url = config.url;
        
         this.history = config.history || [];
         this.playlistVideo = new PlaylistVideo({
@@ -18,6 +18,7 @@ class Ytvideo{
         this.displayListNow = [];
         this.isPlaying = false;
         this.dataVideo = [];
+        this.qHistory = "";
     }
     setPlayer(player){
         this.player = player;
@@ -38,14 +39,22 @@ class Ytvideo{
     //pencarian
     search(urlConfig){
         this.q = urlConfig.q || "";
+
+        if(this.q != this.qHistory){
+            this.dataVideo = [];
+            this.qHistory = this.q;
+        }
+
         this.maxResults = urlConfig.maxResults || "";
         this.type = urlConfig.type || "";
         this.pageToken = urlConfig.pageToken || "";
-        const url = `${this.url}&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}&key=${this.apiKey}`
+        const url = `https://hancau.net/api/index.php?&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}`
+        
         fetch(url)
         .then((result)=>{
-            return result.json()
-        }).then((data)=>{
+            return result.json();
+        })
+        .then((data)=>{
             let videos = data.items;
 
             Object.values(videos).forEach(video=>{
@@ -54,6 +63,7 @@ class Ytvideo{
             this.pageToken =  data.nextPageToken;
             this.display("search");        
         })
+        
     }
     addTitile(titleConfig){
         titleConfig.element.innerHTML = "";
@@ -109,6 +119,13 @@ class Ytvideo{
             this.displayListNow = this.dataVideo;
             this.removeFlex();       
             this.displayHistory(type);
+            if(this.pageToken != undefined && this.pageToken != "" && this.pageToken != null){
+                this.displayLoadMore({
+                    element: this.listVideo,
+                    prev: "",
+                    next: this.pageToken,
+                })    
+            }
         }      
     }
     
@@ -144,16 +161,6 @@ class Ytvideo{
 
             this.listVideo.append(btn)            
         })
-
-        if(this.pageToken != undefined && this.pageToken != "" && this.pageToken != null){
-            this.displayLoadMore({
-                element: this.listVideo,
-                prev: "",
-                next: this.pageToken,
-            })    
-        }
-
-       
     }
     removeFlex(){
         if(this.isPlaying || this.displayListNow.length > 0){
@@ -225,6 +232,8 @@ class Ytvideo{
                 this.player.nextVideo();
                 console.log("next")
             }
+            const playerVideo = this.element.querySelector(".video-player");
+            playerVideo.classList.add("d-none");
         }
 
         requestAnimationFrame(()=>{

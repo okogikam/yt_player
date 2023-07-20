@@ -7,46 +7,16 @@
 </head>
 <body>
     <div class="hasil"></div>
+    <script src="./js/jquery-3.6.3.js"></script>
     <script>
-    // mengambil tag dengan kelas hasil
-    const hasil = document.querySelector(".hasil");
-
-    // fungsi pencarian
-     function search(url){
-        // awal api 
-        fetch(url)
-        .then((result)=>{
-            // jika berhasil dapatkan hasil pencarian dalam JSON
-            return result.json()
-        }).then((data)=>{
-            //menyimpan JSON hasil pencarian ke variabel videos
-            let videos = data.items
-            // fungsi pengulangan untuk variabel video
-            Object.values(videos).forEach(video=>{
-                // membuat <a> element
-                const a = document.createElement("a");
-                // memberi href ke tag <a> dengan link youtube
-                // dengan data https://www.youtube.com/watch?v=[video_id] 
-                // dengan [videp_id] dari video.id.videoId
-                a.href = `https://www.youtube.com/watch?v=${video.id.videoId}`
-                // membuat <img> element
-                const img = new Image()
-                // memberi src ke tag <img> 
-                // dengan ganmbar dari video.snippet.thumbnails.default.url
-                img.src = video.snippet.thumbnails.default.url
-                // membuat fungsi jika gambar selesai di download
-                img.onload = ()=>{
-                    // memasukkan tag <img> ke tag <a>
-                    a.append(img);
-                    // memasukkan tag <a> ke hasil
-                    hasil.append(a)
-                }
-            });         
-        })
-    }
-
-    // memulai pencarian
-    search("https://youtube.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyAhUuEDDoNRjIKw2iQZ74h21_BJTiIicv4")
-    </script>
+        const urlLink = window.origin + "/yt_player/api.php?q=tekotok";
+        const data = fetch(urlLink).then((result)=>{
+                return result.json()
+            }).then((jsondata)=>{
+                let videos = jsondata.items;
+                console.log(videos);
+            });
+   </script>
+   </script>
 </body>
 </html>
