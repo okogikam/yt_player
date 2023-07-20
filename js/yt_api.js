@@ -3,7 +3,7 @@ const domain = location.origin;
 const searchBtn = document.querySelector(".cari-btn");
 const loading = document.querySelector(".loading");
 const settingbtn = document.querySelector(".setting-btn");
-// const autoPlaybtn = document.querySelector(".auto-play");
+const autoPlaybtn = document.querySelector(".auto-play");
 const closesetting = document.querySelector(".close");
 const removeHistory = document.querySelector(".remove-history");
 const removePlailist = document.querySelector(".remove-playlist");
@@ -20,7 +20,7 @@ const Ytsearch = new Ytvideo({
     history: historyVideo,
     url: "http://localhost/yt_player/api.php?",
 })
-// console.log(window.origin + "/yt_player/api.php?")
+
 if(typeof player === "object"){
     loading.classList.add("d-none");
 }
@@ -31,17 +31,17 @@ window.addEventListener("load", async () => {
     }
 });
 
-// autoPlaybtn.addEventListener("click",()=>{
-//     if(Ytsearch.autoPlay){
-//         Ytsearch.autoPlay = false;
-//         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
-//         console.log(Ytsearch.autoPlay);
-//     }else{
-//         Ytsearch.autoPlay = true;
-//         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
-//         console.log(Ytsearch.autoPlay);
-//     }
-// })
+autoPlaybtn.addEventListener("click",()=>{
+    if(Ytsearch.autoPlay){
+        Ytsearch.autoPlay = false;
+        autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
+        console.log(Ytsearch.autoPlay);
+    }else{
+        Ytsearch.autoPlay = true;
+        autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
+        console.log(Ytsearch.autoPlay);
+    }
+})
 
 settingbtn.addEventListener("click",()=>{
     setting.classList.toggle("d-none");
@@ -94,8 +94,6 @@ searchBtn.addEventListener("click",()=>{
     btnMenu[0].click()
 })
 
-//&pageToken=CAUQAA
-
 function onReadyPlayer(){
     Ytsearch.setPlayer(player)
     Ytsearch.load();
@@ -113,4 +111,3 @@ removePlailist.addEventListener("click",()=>{
     Ytsearch.playlistVideo.removePlaylist();
 })
 
-// loading.classList.add("d-none")
