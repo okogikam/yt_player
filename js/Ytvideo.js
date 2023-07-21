@@ -231,9 +231,10 @@ class Ytvideo{
                 this.isDone = false;
                 this.player.nextVideo();
                 console.log("next")
+            }else{
+                const playerVideo = this.element.querySelector(".video-player");
+                playerVideo.classList.add("d-none");
             }
-            const playerVideo = this.element.querySelector(".video-player");
-            playerVideo.classList.add("d-none");
         }
 
         requestAnimationFrame(()=>{

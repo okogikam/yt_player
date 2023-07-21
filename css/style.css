@@ -213,6 +213,7 @@ div.more{
     background-color: var(--blue);
     position: relative;
     border-top-left-radius: 5px;
+    height: 40px;
 }
 .add-playlist:hover::before{
     content: "Add to Playlist";
@@ -228,6 +229,7 @@ div.more{
 .remove-list{
     background-color: var(--red);
     border-bottom-left-radius: 5px;
+    height: 40px;
 }
 .remove-list:hover::before{
     content: "Delete Video";
