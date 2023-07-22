@@ -65,6 +65,9 @@ class PlaylistVideo{
             `;
 
             btn.querySelector(".card-video-detal").addEventListener("click",()=>{
+                this.isPlayingNow = key;
+                this.playlistNow = videos;
+
                 this.playVideo(videos[key]);
             })
 
@@ -83,7 +86,7 @@ class PlaylistVideo{
     playVideo(video){
         this.addTitile({
             element: this.element.querySelector("#title"),
-            title: video.title,
+            title: video['title'],
         })
 
         const playerVideo = this.element.querySelector(".video-player");
@@ -91,6 +94,17 @@ class PlaylistVideo{
         this.ytVideo.player.loadVideoById(video.videoId); 
         console.log(this.ytVideo.player);
         console.log(this.element);
+    }
+    playNextVideo(){
+        this.isPlayingNow = Number(this.isPlayingNow) + 1;
+
+        if(this.isPlayingNow >= this.playlistNow.length){
+            this.isPlayingNow = 0;
+        }
+
+        this.playVideo(this.playlistNow[`${this.isPlayingNow}`]);
+        console.log(typeof this.isPlayingNow);
+        // console.log(this.playlistNow[1]['title']);
     }
     addTitile(titleConfig){
         titleConfig.element.innerHTML = "";

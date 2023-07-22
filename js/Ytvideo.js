@@ -48,7 +48,7 @@ class Ytvideo{
         this.maxResults = urlConfig.maxResults || "";
         this.type = urlConfig.type || "";
         this.pageToken = urlConfig.pageToken || "";
-        const url = `https://hancau.net/api/index.php?&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}`
+        const url = `https://api.hancau.net/?&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}`
         
         fetch(url)
         .then((result)=>{
@@ -104,7 +104,7 @@ class Ytvideo{
     }
     //menampilkan video ke halaman
     async display(type){
-        
+        this.type = type;
         //display video
         this.listVideo.classList.remove("playlist");
         if(type === "history"){
@@ -221,16 +221,21 @@ class Ytvideo{
             console.log("video End")            
             setTimeout(()=>{
                 this.isDone = true;
-            },800)
+            },0)
             if(this.isDone && this.autoPlay){
-                this.playnow += 1;
-                if(this.playnow >= this.displayListNow.length){
-                    this.playnow = 0;
+                if(this.type === "playlist"){
+                    this.isDone = false;
+                    this.playlistVideo.playNextVideo();
+                }else{
+                    this.playnow += 1;
+                    if(this.playnow >= this.displayListNow.length){
+                        this.playnow = 0;
+                    }
+                    this.playVideo(this.playnow);
+                    this.isDone = false;
+                    // this.player.nextVideo();
+                    console.log("next")
                 }
-                this.playVideo(this.playnow);
-                this.isDone = false;
-                this.player.nextVideo();
-                console.log("next")
             }else{
                 const playerVideo = this.element.querySelector(".video-player");
                 playerVideo.classList.add("d-none");
