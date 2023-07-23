@@ -5,11 +5,11 @@
 ### Perlu di update
 
 - [ ] tampilan aplikasi
-- [x] menu untuk menampilkan hasil pencarian, playlist, dan history
-- [x] menambah **playlist**
-- [x] menampilkan hasil pencarian berikutnya
-- [x] menghapus playlist dan history
-- [x] play video dari hasil pencarian, playlist, atau history
+- [ ] menampilkan playlist dipencarian
+- [ ] ganti cara memutar video
+- [ ] gunakan youtube video api untuk menampilkan detail video
+- [ ] menambah mene chanel,untuk menampilkan video di chanel tersebut
+- [ ] buat agar bisa jalan di background
 
 
 
