@@ -125,6 +125,10 @@ body{
 #video-player{
   max-width: 100% !important;
 }
+#player{
+    width: 640px;
+    max-width: 100%;
+}
 
 .list-video{
     display: flex;

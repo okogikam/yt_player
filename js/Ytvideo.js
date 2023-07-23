@@ -22,7 +22,7 @@ class Ytvideo{
     }
     setPlayer(player){
         this.player = player;
-        this.starLoop();
+        // this.starLoop();
     }
     setPlaylist(){
         this.listIdVideo = [];
@@ -184,7 +184,10 @@ class Ytvideo{
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
-        this.player.loadVideoById(this.displayListNow[idVideo].id.videoId); 
+        this.player.init({
+            videoId: this.displayListNow[idVideo].id.videoId,
+            type: "video",
+        }); 
     }
     deleteVideoList(type,idVideo){
         const div = document.createElement("div");
@@ -217,30 +220,30 @@ class Ytvideo{
 
     //memulai looping untuk mengecek status video 0 jika sudah selesai
     starLoop(){
-        if(this.player.getPlayerState() === 0){
-            console.log("video End")            
-            setTimeout(()=>{
-                this.isDone = true;
-            },0)
-            if(this.isDone && this.autoPlay){
-                if(this.type === "playlist"){
-                    this.isDone = false;
-                    this.playlistVideo.playNextVideo();
-                }else{
-                    this.playnow += 1;
-                    if(this.playnow >= this.displayListNow.length){
-                        this.playnow = 0;
-                    }
-                    this.playVideo(this.playnow);
-                    this.isDone = false;
-                    // this.player.nextVideo();
-                    console.log("next")
-                }
-            }else{
-                const playerVideo = this.element.querySelector(".video-player");
-                playerVideo.classList.add("d-none");
-            }
-        }
+        console.log(this.player.getPlayerState());
+        // if(this.player.getPlayerState() === 0){
+        //     console.log("video End")            
+        //     setTimeout(()=>{
+        //         this.isDone = true;
+        //     },0)
+        //     if(this.isDone && this.autoPlay){
+        //         if(this.type === "playlist"){
+        //             this.isDone = false;
+        //             this.playlistVideo.playNextVideo();
+        //         }else{
+        //             this.playnow += 1;
+        //             if(this.playnow >= this.displayListNow.length){
+        //                 this.playnow = 0;
+        //             }
+        //             this.playVideo(this.playnow);
+        //             this.isDone = false;
+        //             console.log("next")
+        //         }
+        //     }else{
+        //         const playerVideo = this.element.querySelector(".video-player");
+        //         playerVideo.classList.add("d-none");
+        //     }
+        // }
 
         requestAnimationFrame(()=>{
             this.starLoop()

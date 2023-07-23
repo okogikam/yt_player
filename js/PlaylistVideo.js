@@ -91,9 +91,10 @@ class PlaylistVideo{
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
-        this.ytVideo.player.loadVideoById(video.videoId); 
-        console.log(this.ytVideo.player);
-        console.log(this.element);
+        this.ytVideo.player.init({
+           videoId: video.videoId,
+           type: "playlist",
+        });
     }
     playNextVideo(){
         this.isPlayingNow = Number(this.isPlayingNow) + 1;

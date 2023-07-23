@@ -11,7 +11,10 @@ const setting = document.querySelector(".setting");
 let btnMenu = document.querySelectorAll(".btn-menu");
 const historyVideo = localStorage.getItem("history") ? JSON.parse(localStorage.getItem("history")) : [];
 const Playlist = localStorage.getItem("playlist") ? JSON.parse(localStorage.getItem("playlist")) : [];
-let player
+let player = new Player({
+    element: document.querySelector("#video-player"),
+    origin: domain,
+})
 
 
 const Ytsearch = new Ytvideo({
@@ -21,25 +24,27 @@ const Ytsearch = new Ytvideo({
     url: "http://localhost/yt_player/api.php?",
 })
 
-if(typeof player === "object"){
-    loading.classList.add("d-none");
-}
+// if(typeof player === "object"){
+//     loading.classList.add("d-none");
+// }
 
 window.addEventListener("load", async () => {
     if ("serviceWorker" in navigator) {
        await navigator.serviceWorker.register("./service-worker.js");
     }
+
+    player.makeElement();
+    Ytsearch.setPlayer(player);
+    loading.classList.add("d-none");
 });
 
 autoPlaybtn.addEventListener("click",()=>{
     if(Ytsearch.autoPlay){
         Ytsearch.autoPlay = false;
         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
-        console.log(Ytsearch.autoPlay);
     }else{
         Ytsearch.autoPlay = true;
         autoPlaybtn.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
-        console.log(Ytsearch.autoPlay);
     }
 })
 
@@ -67,23 +72,34 @@ function menubtn(type){
 // console.log(Ytsearch.listIdVideo);
 // 2. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
-function onYouTubeIframeAPIReady(){
-    loading.classList.remove("d-none")
-    player = new YT.Player('video-player',{
-        playerVars: {
-            'controls': 1,
-            'iv_load_policy':3,
-            'listType': 'playlist',
-            'origin': "https://hancau.net/api/",
-            'rel': 0
-          },         
-        events:{
-            "onReady": onReadyPlayer,
-            "onError": onErrorPlayer,
-        }
-    })    
-}
+// function onYouTubeIframeAPIReady(){
+//     loading.classList.remove("d-none")
+//     player = new YT.Player('video-player',{
+//         playerVars: {
+//             'controls': 1,
+//             'iv_load_policy':3,
+//             'listType': 'playlist',
+//             'origin': "https://hancau.net/api/",
+//             'rel': 0
+//           },         
+//         events:{
+//             "onReady": onReadyPlayer,
+//             "onError": onErrorPlayer,
+//         }
+//     })    
+// }
 
+
+// function onReadyPlayer(){
+//     Ytsearch.setPlayer(player)
+//     Ytsearch.load();
+//     loading.classList.add("d-none")
+// }
+
+// function onErrorPlayer(){
+    //     location.reload()
+    // }
+        
 searchBtn.addEventListener("click",()=>{
     let searchQuery = document.querySelector(".search").value;
     Ytsearch.search({
@@ -93,16 +109,6 @@ searchBtn.addEventListener("click",()=>{
     });
     btnMenu[0].click()
 })
-
-function onReadyPlayer(){
-    Ytsearch.setPlayer(player)
-    Ytsearch.load();
-    loading.classList.add("d-none")
-}
-
-function onErrorPlayer(){
-    location.reload()
-}
 
 removeHistory.addEventListener("click",()=>{
     Ytsearch.removeHistory();
