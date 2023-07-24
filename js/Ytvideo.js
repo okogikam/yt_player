@@ -21,7 +21,7 @@ class Ytvideo{
     }
     setPlayer(player){
         this.player = player;
-        // this.starLoop();
+        this.starLoop();
     }
     setPlaylist(){
         this.listIdVideo = [];
@@ -219,27 +219,27 @@ class Ytvideo{
 
     //memulai looping untuk mengecek status video 0 jika sudah selesai
     starLoop(){
-        console.log(this.player.getPlayerState());
-        // if(this.player.getPlayerState() === 0){
-        //     console.log("video End")            
-        //     setTimeout(()=>{
-        //         this.isDone = true;
-        //     },0)
-        //     if(this.isDone && this.autoPlay){
-        //         
-    //             this.playnow += 1;
-    //             if(this.playnow >= this.displayListNow.length){
-    //                 this.playnow = 0;
-    //             }
-    //             this.playVideo(this.playnow);
-    //             this.isDone = false;
-    //             console.log("next")
-        //         
-        //     }else{
-        //         const playerVideo = this.element.querySelector(".video-player");
-        //         playerVideo.classList.add("d-none");
-        //     }
-        // }
+        this.player.startLoop();
+        console.log(this.player.playerState);
+        if(this.player.playerState === 0){
+            console.log("video End")            
+            setTimeout(()=>{
+                this.isDone = true;
+            },500)
+            if(this.isDone && this.autoPlay){             
+                this.playnow += 1;
+                if(this.playnow >= this.displayListNow.length){
+                    this.playnow = 0;
+                }
+                this.playVideo(this.playnow);
+                this.isDone = false;
+                console.log("next")
+                
+            }else{
+                const playerVideo = this.element.querySelector(".video-player");
+                playerVideo.classList.add("d-none");
+            }
+        }
 
         requestAnimationFrame(()=>{
             this.starLoop()

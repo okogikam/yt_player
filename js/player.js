@@ -43,7 +43,18 @@ class Player{
             console.log(event.data)
         }
     }
+   async startLoop(){
+        if(this.playerReady && this.isPlaying){
+            this.playerState = this.ytIframe.getPlayerState();
+        }
+
+
+        requestAnimationFrame(()=>{
+            this.startLoop();
+        })
+    }
     init(config){
         this[config.type](config.videoId);
+        // this.startLoop()
     }
 }
