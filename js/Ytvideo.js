@@ -1,7 +1,6 @@
 class Ytvideo{
     constructor(config){
         this.element = config.element;
-        // this.url = "https://youtube.googleapis.com/youtube/v3/search?part=snippet";
         this.url = config.url;
        
         this.history = config.history || [];
@@ -227,18 +226,15 @@ class Ytvideo{
         //         this.isDone = true;
         //     },0)
         //     if(this.isDone && this.autoPlay){
-        //         if(this.type === "playlist"){
-        //             this.isDone = false;
-        //             this.playlistVideo.playNextVideo();
-        //         }else{
-        //             this.playnow += 1;
-        //             if(this.playnow >= this.displayListNow.length){
-        //                 this.playnow = 0;
-        //             }
-        //             this.playVideo(this.playnow);
-        //             this.isDone = false;
-        //             console.log("next")
-        //         }
+        //         
+    //             this.playnow += 1;
+    //             if(this.playnow >= this.displayListNow.length){
+    //                 this.playnow = 0;
+    //             }
+    //             this.playVideo(this.playnow);
+    //             this.isDone = false;
+    //             console.log("next")
+        //         
         //     }else{
         //         const playerVideo = this.element.querySelector(".video-player");
         //         playerVideo.classList.add("d-none");

@@ -9,7 +9,6 @@ class Player{
     makeElement(){
         const iframe = document.createElement("iframe");
         iframe.setAttribute("id","player")
-        // iframe.setAttribute("width","640");
         iframe.setAttribute("height","360");
         iframe.setAttribute("frameborder","0");
         iframe.setAttribute("allow","accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
@@ -24,14 +23,9 @@ class Player{
                 "onStateChange": this.getPlayerState(),
             }
         });
-        console.log(this.ytIframe);
     }
 
     video(videoId){
-        // const url = `https://www.youtube.com/embed/${videoId}?${this.attribute}`;
-        // const iframe  =  this.element.querySelector("#player");
-        // iframe.src = url;
-
         this.ytIframe.loadVideoById(videoId);
         this.isPlaying = true;
     }
@@ -39,15 +33,10 @@ class Player{
         this.playerReady = true;
     }
     playlist(videoId){
-        // const url = `https://www.youtube.com/embed/${videoId}?listType=playlist&loop=1&${this.attribute}`;
-        // const iframe  =  this.element.querySelector("#player");
-        // iframe.src = url;
-
-        this.ytIframe.cuePlaylist({
-            list: "PLxSscENEp7JipogV7W74-hbDbYaQx78Oq",
-            startSeconds: 0,
+        this.ytIframe.loadPlaylist({
+            playlist: videoId.playlist,
+            index:videoId.key
         })
-        this.ytIframe.playVideo();
     }
     getPlayerState(event){
         if(this.playerReady && this.isPlaying){

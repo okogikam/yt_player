@@ -68,7 +68,10 @@ class PlaylistVideo{
                 this.isPlayingNow = key;
                 this.playlistNow = videos;
 
-                this.playVideo(videos[key]);
+                this.playVideo({
+                    video: videos,
+                    index: key,
+                });
             })
 
             btn.querySelector(".remove-list").addEventListener("click",()=>{
@@ -83,17 +86,25 @@ class PlaylistVideo{
             this.listVideo.classList.add("playlist")
         })
     }
-    playVideo(video){
+    playVideo(videos){
         this.addTitile({
             element: this.element.querySelector("#title"),
-            title: video['title'],
+            title: videos.video[`${videos.index}`]['title'],
         })
+        const playlist = [];
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
+        Object.keys(videos.video).forEach(key=>{
+            
+            playlist.push(videos.video[key].videoId);
+        })
         this.ytVideo.player.init({
-           videoId: video.videoId,
-           type: "playlist",
+            type: "playlist",
+            videoId: {
+                playlist: playlist,
+                index: videos.index,
+            }
         });
     }
     playNextVideo(){
@@ -104,8 +115,6 @@ class PlaylistVideo{
         }
 
         this.playVideo(this.playlistNow[`${this.isPlayingNow}`]);
-        console.log(typeof this.isPlayingNow);
-        // console.log(this.playlistNow[1]['title']);
     }
     addTitile(titleConfig){
         titleConfig.element.innerHTML = "";
@@ -145,7 +154,6 @@ class PlaylistVideo{
 
             this.savePlaylist(key,vid);
 
-            // console.log(config.playlist);
             this.saveToLocal();                     
         })
 
@@ -192,7 +200,6 @@ class PlaylistVideo{
                         const cekVideoAda = Object.values(obj[`${key}`]).find(v=>{
                             return `${v.videoId}` === `${vid.id.videoId}`;
                         })
-                        console.log(obj);
                         if(!cekVideoAda){
                             obj[`${key}`].push({
                                  title: vid.snippet.title,
@@ -203,7 +210,6 @@ class PlaylistVideo{
                     }
                 })
             })
-            console.log("ada yg sama")
             return;
         }        
     }
@@ -230,7 +236,6 @@ class PlaylistVideo{
         <button type="button" class="btn cancel">Cancel</button>
         </div>
         `;
-        console.log(videoConfig.videos[`${videoConfig.videoKey}`].title);
 
         div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
             this.findVideoKey(videoConfig);
