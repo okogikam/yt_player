@@ -29,13 +29,28 @@ class Player{
         this.ytIframe.loadVideoById(videoId);
         this.isPlaying = true;
     }
+    playlist(videoId){   
+        const src = `https://www.youtube.com/embed?listType=playlist&list=${videoId}&autoplay=1&origin=http://127.0.0.1:5500&enablejsapi=1`;
+        
+        const iframe = this.element.querySelector("iframe");
+        iframe.src = src;
+
+        // this.ytIframe.loadPlaylist({
+        //     listType: "playlist",
+        //     list: videoId,
+        // });
+        // setTimeout(()=>{
+        //     this.ytIframe.playVideoAt(0);
+        // },500)
+        this.ytIframe.playVideoAt(0);
+    }
     ready(){
         this.playerReady = true;
     }
-    playlist(videoId){
+    costumePlaylist(videoId){
         this.ytIframe.loadPlaylist({
             playlist: videoId.playlist,
-            index:videoId.key
+            index:videoId.index ? videoId.index : 0,
         })
     }
     getPlayerState(event){

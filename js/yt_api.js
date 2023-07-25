@@ -102,9 +102,14 @@ function menubtn(type){
         
 searchBtn.addEventListener("click",()=>{
     let searchQuery = document.querySelector(".search").value;
+    let videoType = searchQuery.split(":");
+    let type = "video";
+    if(videoType[0] === "pl"){
+        type = "playlist";
+    }
     Ytsearch.search({
         q: searchQuery,
-        type: "video",
+        type: type,
         maxResults: "9"
     });
     btnMenu[0].click()

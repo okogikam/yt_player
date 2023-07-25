@@ -131,6 +131,8 @@ class Ytvideo{
     displayHistory(type){
         this.listVideo.innerHTML = "";
         this.displayListNow.forEach((vid,key)=>{
+            const kind = vid.id.kind;
+            const videoKind  = kind.split("#");
             const btn = document.createElement("button");
             btn.classList.add('btn-video');
             btn.innerHTML = `
@@ -142,7 +144,7 @@ class Ytvideo{
              <div class="card-img" style="background-image:url(${vid.snippet.thumbnails.medium.url})">
              </div>
              <div class="card-body">
-                <p>${vid.snippet.title}</p>
+                <p>[${videoKind[1]}]${vid.snippet.title}</p>
              </div>
             </div>
             `;
@@ -175,18 +177,38 @@ class Ytvideo{
             this.history.push(this.displayListNow[idVideo]);
             this.saveHistory();
         }
+        if(!this.history.find((v)=>(v.id.playlistId == this.displayListNow[idVideo].id.playlistId))){
+            this.history.push(this.displayListNow[idVideo]);
+            this.saveHistory();
+        }
+        const kind = this.displayListNow[idVideo].id.kind;
+        const videoKind = kind.split("#");
 
         this.addTitile({
             element: this.element.querySelector("#title"),
             title: this.displayListNow[idVideo].snippet.title
         })
+        // console.log(type[1]);
+        // console.log(this.displayListNow[idVideo].id.playlistId);
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
+
+        if(videoKind[1] === "playlist"){
+            console.log("click");
+            this.player.init({
+                type: "playlist",
+                videoId: this.displayListNow[idVideo].id.playlistId,
+            })
+
+            return;
+        }
+
         this.player.init({
             videoId: this.displayListNow[idVideo].id.videoId,
             type: "video",
         }); 
+        
     }
     deleteVideoList(type,idVideo){
         const div = document.createElement("div");
@@ -220,7 +242,6 @@ class Ytvideo{
     //memulai looping untuk mengecek status video 0 jika sudah selesai
     starLoop(){
         this.player.startLoop();
-        console.log(this.player.playerState);
         if(this.player.playerState === 0){
             console.log("video End")            
             setTimeout(()=>{

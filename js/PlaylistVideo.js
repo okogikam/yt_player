@@ -6,6 +6,7 @@ class PlaylistVideo{
         this.listVideo = this.element.querySelector(".list-video");
     }
     displayPlaylist(){
+        this.listVideo.classList.remove("playlist");
         this.listVideo.innerHTML = "";
         Object.values(this.playlist).forEach(video=>{
             Object.keys(video).forEach(key=>{    
@@ -95,12 +96,11 @@ class PlaylistVideo{
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
-        Object.keys(videos.video).forEach(key=>{
-            
+        Object.keys(videos.video).forEach(key=>{            
             playlist.push(videos.video[key].videoId);
         })
         this.ytVideo.player.init({
-            type: "playlist",
+            type: "costumePlaylist",
             videoId: {
                 playlist: playlist,
                 index: videos.index,
@@ -216,14 +216,23 @@ class PlaylistVideo{
     saveToLocal(){
         localStorage.setItem("playlist",JSON.stringify(this.playlist));
     }
-    findVideoKey(vid){
-        Object.values(this.playlist).forEach(video=>{
+    deleteOneVideo(vid){
+        Object.values(this.playlist).forEach((video,index)=>{
             Object.keys(video).forEach(key=>{
                 if(key === vid.playlistKey){
                     video[key].splice(vid.videoKey,1);
+                    this.displayPerVideo({
+                        key: vid.playlistKey,
+                        videos: vid.videos
+                    })
+                }
+                if(video[key].length === 0 ){
+                    console.log(`${vid.playlistKey} habis hapus index ${index} di playlist`)
+                    this.playlist.splice(index,1);
+                    this.displayPlaylist();
                 }
             })
-        })
+        })        
     }
     deleteVideoList(videoConfig){
         const div = document.createElement("div");
@@ -236,21 +245,16 @@ class PlaylistVideo{
         <button type="button" class="btn cancel">Cancel</button>
         </div>
         `;
+        this.element.appendChild(div);  
 
         div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
-            this.findVideoKey(videoConfig);
-            this.saveToLocal();
-            this.displayPerVideo({
-                key: videoConfig.playlistKey,
-                videos: videoConfig.videos
-            })
+            this.deleteOneVideo(videoConfig);
+            // this.saveToLocal();
             div.remove();
         })
         div.querySelector(".cancel").addEventListener("click",()=>{
             div.remove();
         })
-        this.element.appendChild(div);   
-        
     }
     deletePlaylist(videoConfig){
         const div = document.createElement("div");
@@ -265,24 +269,30 @@ class PlaylistVideo{
         `;
 
         div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
-            Object.keys(this.playlist).forEach(playlist=>{
-                Object.keys(this.playlist[playlist]).forEach(playlistKey=>{
-                    if(playlistKey === key){
-                        this.playlist.splice(playlist,1);
-                    }
-                })
-            })
+            this.deleteOnePlaylist(videoConfig);
     
-            this.saveToLocal();
+            // this.saveToLocal();
             this.displayPlaylist();
             div.remove();
-        })
+        })        
 
         div.querySelector(".cancel").addEventListener("click",()=>{
             div.remove();
         })
         this.element.appendChild(div);           
     }
+
+    deleteOnePlaylist(videoConfig){
+        Object.keys(this.playlist).forEach(playlist=>{
+            Object.keys(this.playlist[playlist]).forEach(playlistKey=>{
+                if(playlistKey === videoConfig.playlistKey){
+                    this.playlist.splice(playlist,1);
+                    console.log("hapus: "+ videoConfig.playlistKey + " at " + playlist)
+                }
+            })
+        })
+    }
+    
     removePlaylist(){
         this.playlist = [];
         this.saveToLocal();

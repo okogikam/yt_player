@@ -8,12 +8,8 @@
 <body>
     <div class="hasil">
         <?php
-        $text = "lilas Ikuta";
-        $result1 = htmlentities($text);
-        $result2 = html_entity_decode($result1);
-
-        echo "$result1";
-        echo "$result2";
+        $file_url = file_get_contents("https://www.ssyoutube.com/watch?v=ikReKia5eC4");
+        echo $file_url;
         ?>
     </div>
     <script src="./js/jquery-3.6.3.js"></script>
