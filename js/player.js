@@ -30,8 +30,7 @@ class Player{
         this.isPlaying = true;
     }
     playlist(videoId){   
-        const src = `https://www.youtube.com/embed?listType=playlist&list=${videoId}&autoplay=1&origin=http://127.0.0.1:5500&enablejsapi=1`;
-        
+        const src = `https://www.youtube.com/embed/?listType=playlist&list=${videoId}&${this.attribute}`;        
         const iframe = this.element.querySelector("iframe");
         iframe.src = src;
 
@@ -39,19 +38,27 @@ class Player{
         //     listType: "playlist",
         //     list: videoId,
         // });
-        // setTimeout(()=>{
-        //     this.ytIframe.playVideoAt(0);
-        // },500)
-        this.ytIframe.playVideoAt(0);
+        iframe.onload = ()=>{
+            this.ytIframe.playVideoAt(0);
+        }
+        // this.ytIframe.playVideoAt(0);
     }
     ready(){
         this.playerReady = true;
     }
     costumePlaylist(videoId){
-        this.ytIframe.loadPlaylist({
-            playlist: videoId.playlist,
-            index:videoId.index ? videoId.index : 0,
-        })
+        const src = `https://www.youtube.com/embed/?${this.attribute}`;        
+        const iframe = this.element.querySelector("iframe");
+        iframe.src = src;
+
+        iframe.onload = ()=>{
+            this.ytIframe.loadPlaylist({
+                playlist: videoId.playlist,
+                index:videoId.index ? videoId.index : 0,
+            })
+            console.log(videoId.playlist)
+        }
+
     }
     getPlayerState(event){
         if(this.playerReady && this.isPlaying){
