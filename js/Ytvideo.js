@@ -138,6 +138,7 @@ class Ytvideo{
             btn.innerHTML = `
             <span>
             <button class="btn add-playlist"><i class="fa-solid fa-headphones"></i></button>
+            <button class="btn download"><i class="fa-solid fa-download"></i></button>
             <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
             </span>         
             <div class="card">
@@ -155,6 +156,13 @@ class Ytvideo{
             })
             btn.querySelector(".add-playlist").addEventListener("click",()=>{
                 this.playlistVideo.addPlaylist(vid);
+            })
+            btn.querySelector(".download").addEventListener("click",()=>{
+                const download = new DownloadVideo({
+                    videoId: vid.id.videoId,
+                    element: this.element,
+                })
+                download.download();
             })
             btn.querySelector(".remove-list").addEventListener("click",()=>{
                 this.deleteVideoList(type,key);
@@ -208,6 +216,8 @@ class Ytvideo{
             videoId: this.displayListNow[idVideo].id.videoId,
             type: "video",
         }); 
+
+        
         
     }
     deleteVideoList(type,idVideo){

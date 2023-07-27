@@ -322,3 +322,6 @@ div.more{
 .playlist .card-body p{
     text-align: left;
 }
+.ytp-pause-overlay-container{
+    display: none !important;
+}

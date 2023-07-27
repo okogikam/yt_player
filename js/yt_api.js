@@ -110,7 +110,7 @@ searchBtn.addEventListener("click",()=>{
     Ytsearch.search({
         q: searchQuery,
         type: type,
-        maxResults: "30"
+        maxResults: "50"
     });
     btnMenu[0].click()
 })

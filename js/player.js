@@ -28,6 +28,7 @@ class Player{
     video(videoId){
         this.ytIframe.loadVideoById(videoId);
         this.isPlaying = true;
+        
     }
     playlist(videoId){   
         const src = `https://www.youtube.com/embed/?listType=playlist&list=${videoId}&${this.attribute}`;        
@@ -68,6 +69,8 @@ class Player{
    async startLoop(){
         if(this.playerReady && this.isPlaying){
             this.playerState = this.ytIframe.getPlayerState();
+            // const tempUrl = this.element.querySelector(".html5-main-video");
+            // console.log(this.ytIframe.getVideoData());
         }
 
 
