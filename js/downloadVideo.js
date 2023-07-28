@@ -7,23 +7,7 @@ class DownloadVideo{
     }
 
     async download(){
-        // const url = `https://youtube-video-download-info.p.rapidapi.com/dl?id=${this.videoId}`;
-        // const options = {
-        //     method: 'GET',
-        //     headers: {
-        //         'X-RapidAPI-Key': 'de9bef3dd1msh20158e0d61df5bbp13cbe8jsn51fb908a38bb',
-        //         'X-RapidAPI-Host': 'youtube-video-download-info.p.rapidapi.com'
-        //     }
-        // };
-
-        // try {
-        //     const response = await fetch(url, options);
-        //     const result = await response.text();
-        //     console.log(JSON.parse(result).link[17][0]);
-            
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        
     }
     makeElement(href){
         const a = document.createElement("a");
