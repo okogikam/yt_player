@@ -198,6 +198,9 @@ div.more{
     overflow: hidden;
     cursor: pointer;
 }
+.card .card-body{
+    max-height: 50px;
+    overflow: hidden;
 .card-img{
     height: 150px;
     background-repeat: no-repeat;
@@ -317,9 +320,7 @@ div.more{
 }
 .playlist .card-body{
     flex: 1 1 60%;
-    padding-left: 10px;
-    max-height: 50px;
-    overflow: hidden;
+    padding-left: 10px;    
 }
 .playlist .card-body p{
     text-align: left;
@@ -327,3 +328,4 @@ div.more{
 .ytp-pause-overlay-container{
     display: none !important;
 }
+
