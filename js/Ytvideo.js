@@ -138,7 +138,6 @@ class Ytvideo{
             btn.innerHTML = `
             <span>
             <button class="btn add-playlist"><i class="fa-solid fa-headphones"></i></button>
-            <button class="btn download"><i class="fa-solid fa-download"></i></button>
             <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
             </span>         
             <div class="card">
