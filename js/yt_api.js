@@ -11,6 +11,7 @@ const setting = document.querySelector(".setting");
 let btnMenu = document.querySelectorAll(".btn-menu");
 const historyVideo = localStorage.getItem("history") ? JSON.parse(localStorage.getItem("history")) : [];
 const Playlist = localStorage.getItem("playlist") ? JSON.parse(localStorage.getItem("playlist")) : [];
+let searchInput = document.querySelector(".search");
 let player = new Player({
     element: document.querySelector("#video-player"),
     origin: domain,
@@ -101,7 +102,7 @@ function menubtn(type){
     // }
         
 searchBtn.addEventListener("click",()=>{
-    let searchQuery = document.querySelector(".search").value;
+    let searchQuery = searchInput.value;
     let videoType = searchQuery.split(":");
     let type = "video";
     if(videoType[0].toLowerCase() === "pl"){
@@ -113,6 +114,9 @@ searchBtn.addEventListener("click",()=>{
         maxResults: "50"
     });
     btnMenu[0].click()
+})
+searchInput.addEventListener("keypress",(key)=>{
+    console.log(key);
 })
 
 removeHistory.addEventListener("click",()=>{
