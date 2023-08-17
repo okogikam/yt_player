@@ -126,6 +126,8 @@ body{
 #title{
     max-width: 900px;
     padding: 10px;
+    font-size: 1.5rem;
+    font-weight: 900;
 }
 #video-player{
   max-width: 100% !important;
@@ -313,6 +315,7 @@ div.more{
     color: white;
     width: 100%;
     text-transform: uppercase;
+    
 }
 .playlist .btn-video{
     flex: 1 1 100% !important;
