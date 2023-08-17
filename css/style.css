@@ -198,9 +198,10 @@ div.more{
     overflow: hidden;
     cursor: pointer;
 }
-.card .card-body{
+.card .card-body p{
     max-height: 50px;
     overflow: hidden;
+}
 .card-img{
     height: 150px;
     background-repeat: no-repeat;
