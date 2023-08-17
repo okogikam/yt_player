@@ -198,7 +198,7 @@ div.more{
     overflow: hidden;
     cursor: pointer;
 }
-.card .card-body p{
+.card .card-body {
     max-height: 50px;
     overflow: hidden;
 }
