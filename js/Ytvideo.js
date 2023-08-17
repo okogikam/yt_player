@@ -156,13 +156,13 @@ class Ytvideo{
             btn.querySelector(".add-playlist").addEventListener("click",()=>{
                 this.playlistVideo.addPlaylist(vid);
             })
-            btn.querySelector(".download").addEventListener("click",()=>{
-                const download = new DownloadVideo({
-                    videoId: vid.id.videoId,
-                    element: this.element,
-                })
-                download.download();
-            })
+            // btn.querySelector(".download").addEventListener("click",()=>{
+            //     const download = new DownloadVideo({
+            //         videoId: vid.id.videoId,
+            //         element: this.element,
+            //     })
+            //     download.download();
+            // })
             btn.querySelector(".remove-list").addEventListener("click",()=>{
                 this.deleteVideoList(type,key);
             })
