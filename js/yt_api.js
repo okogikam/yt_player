@@ -115,8 +115,23 @@ searchBtn.addEventListener("click",()=>{
     });
     btnMenu[0].click()
 })
+
 searchInput.addEventListener("keydown",(key)=>{
-    console.log(key);
+    key.event.preventDefault();
+    if(key.code === "Enter"){
+        let searchQuery = searchInput.value;
+        let videoType = searchQuery.split(":");
+        let type = "video";
+        if(videoType[0].toLowerCase() === "pl"){
+            type = "playlist";
+        }
+        Ytsearch.search({
+            q: searchQuery,
+            type: type,
+            maxResults: "50"
+        });
+        btnMenu[0].click()
+        }
 })
 
 removeHistory.addEventListener("click",()=>{
