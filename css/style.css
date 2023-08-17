@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@100&display=swap');
+
 :root{
     --red:#FF6969;
     --blue:#A6D0DD;
@@ -5,12 +8,14 @@
     --bg-primary: #e4e2dd;
     --white: rgb(241, 238, 238);
     --black: rgba(31, 30, 30, 0.897);
+    --font: 'Open Sans', sans-serif;;
 }
 *{
     box-sizing: border-box;
     padding: 0px;
     margin: 0px;
     color: var(--black);
+    font-family: var(--font);
 }
 button{
     cursor: pointer;
