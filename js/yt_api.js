@@ -116,9 +116,9 @@ searchBtn.addEventListener("click",()=>{
     btnMenu[0].click()
 })
 
-searchInput.addEventListener("keydown",(key)=>{
-    key.preventDefault();
-    if(key.code === "Enter"){
+searchInput.addEventListener("keydown",(event)=>{
+    event.preventDefault();
+    if(event.code === "Enter"){
         let searchQuery = searchInput.value;
         let videoType = searchQuery.split(":");
         let type = "video";
