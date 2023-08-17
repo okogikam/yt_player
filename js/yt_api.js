@@ -115,7 +115,7 @@ searchBtn.addEventListener("click",()=>{
     });
     btnMenu[0].click()
 })
-searchInput.addEventListener("keypress",(key)=>{
+searchInput.addEventListener("keydown",(key)=>{
     console.log(key);
 })
 
