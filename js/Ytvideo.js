@@ -251,6 +251,7 @@ class Ytvideo{
     //memulai looping untuk mengecek status video 0 jika sudah selesai
     starLoop(){
         this.player.startLoop();
+        console.log(this.player.playerState)
         if(this.player.playerState === 0){
             console.log("video End")            
             setTimeout(()=>{

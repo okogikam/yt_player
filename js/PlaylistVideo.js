@@ -54,6 +54,7 @@ class PlaylistVideo{
             btn.classList.add('btn-video');
             btn.innerHTML = `
             <span>
+            <button class="btn add-playlist"><i class="fa-solid fa-headphones"></i></button>
             <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
             </span>         
             <div class="card-video-detal">
