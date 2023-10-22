@@ -28,10 +28,11 @@ class PlaylistVideo{
                 `;
     
                 btn.querySelector(".card").addEventListener("click",()=>{
+                    let vidPlaylists = video[key].sort(() => Math.random() - 0.5); 
                     this.displayPerVideo({
                         key: key,
-                        videos: video[key]}
-                        );
+                        videos: vidPlaylists
+                    });
                 })
 
                 btn.querySelector(".remove-list").addEventListener("click",()=>{
@@ -47,6 +48,7 @@ class PlaylistVideo{
         })
     }
     displayPerVideo(videoConfig){
+        console.log(videoConfig.videos);
         this.listVideo.innerHTML = `<p class="title">${videoConfig.key}</p>`;
         Object.keys(videoConfig.videos).forEach(key=>{
             const videos = videoConfig.videos;
