@@ -48,7 +48,7 @@ class PlaylistVideo{
         })
     }
     displayPerVideo(videoConfig){
-        console.log(videoConfig.videos);
+        
         this.listVideo.innerHTML = `<p class="title">${videoConfig.key}</p>`;
         Object.keys(videoConfig.videos).forEach(key=>{
             const videos = videoConfig.videos;
