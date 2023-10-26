@@ -23,6 +23,7 @@ class Player{
                 "onStateChange": this.getPlayerState(),
             }
         });
+        console.log(this.ytIframe)
     }
 
     video(videoId){
@@ -41,8 +42,8 @@ class Player{
         // });
         iframe.onload = ()=>{
             this.ytIframe.playVideoAt(0);
-        }
-        // this.ytIframe.playVideoAt(0);
+        }       
+        
     }
     ready(){
         this.playerReady = true;
@@ -57,20 +58,18 @@ class Player{
                 playlist: videoId.playlist,
                 index:videoId.index ? videoId.index : 0,
             })
-            console.log(videoId.playlist)
+            
         }
 
     }
     getPlayerState(event){
         if(this.playerReady && this.isPlaying){
-            console.log(event.data)
+            // console.log(event.data)
         }
     }
    async startLoop(){
         if(this.playerReady && this.isPlaying){
             this.playerState = this.ytIframe.getPlayerState();
-            // const tempUrl = this.element.querySelector(".html5-main-video");
-            // console.log(this.ytIframe.getVideoData());
         }
 
 

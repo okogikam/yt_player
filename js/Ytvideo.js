@@ -21,6 +21,7 @@ class Ytvideo{
     }
     setPlayer(player){
         this.player = player;
+        // console.log(this.player)
         this.starLoop();
     }
     setPlaylist(){
@@ -253,7 +254,7 @@ class Ytvideo{
         this.player.startLoop();
         console.log(this.player.playerState)
         if(this.player.playerState === 0){
-            console.log("video End")            
+            // console.log("video End")            
             setTimeout(()=>{
                 this.isDone = true;
             },500)
@@ -264,12 +265,15 @@ class Ytvideo{
                 }
                 this.playVideo(this.playnow);
                 this.isDone = false;
-                console.log("next")
+                // console.log("next")
                 
             }else{
                 const playerVideo = this.element.querySelector(".video-player");
                 playerVideo.classList.add("d-none");
             }
+        }
+        if(this.player.playerState === 3 || this.player.playerState === 2){
+            this.playVideo(this.playnow);
         }
 
         requestAnimationFrame(()=>{
