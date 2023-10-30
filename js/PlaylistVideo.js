@@ -10,39 +10,42 @@ class PlaylistVideo{
         this.listVideo.innerHTML = "";
         Object.values(this.playlist).forEach(video=>{
             Object.keys(video).forEach(key=>{    
-                         
-                const btn = document.createElement("button");
-                btn.classList.add('btn-video');
-                btn.innerHTML = `
-                <span>
-                <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
-                </span>         
-                <div class="card">
-                    <div class="card-img" style="background-image:url(${video[key][0].thumbnails.medium.url})">
-                    <span class="video-num">${video[key].length} <br><i class="fa-solid fa-list"></i></span>
+                if(video[key].length > 0){
+                    console.log(video[key].length)
+                    const btn = document.createElement("button");
+                    btn.classList.add('btn-video');
+                    btn.innerHTML = `
+                    <span>
+                    <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
+                    </span>         
+                    <div class="card">
+                        <div class="card-img" style="background-image:url(${video[key][0].snippet.thumbnails.medium.url})">
+                        <span class="video-num">${video[key].length} <br><i class="fa-solid fa-list"></i></span>
+                        </div>
+                        <div class="card-body">
+                        <p>${key}</p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                    <p>${key}</p>
-                    </div>
-                </div>
-                `;
+                    `;
+        
+                    btn.querySelector(".card").addEventListener("click",()=>{
+                        let vidPlaylists = video[key].sort(() => Math.random() - 0.5); 
+                        this.displayPerVideo({
+                            key: key,
+                            videos: vidPlaylists
+                        });
+                    })
     
-                btn.querySelector(".card").addEventListener("click",()=>{
-                    let vidPlaylists = video[key].sort(() => Math.random() - 0.5); 
-                    this.displayPerVideo({
-                        key: key,
-                        videos: vidPlaylists
-                    });
-                })
+                    btn.querySelector(".remove-list").addEventListener("click",()=>{
+                        this.deletePlaylist({
+                            playlist: video[key],
+                            playlistKey: key,
+                        });
+                    })
+        
+                    this.listVideo.append(btn);        
 
-                btn.querySelector(".remove-list").addEventListener("click",()=>{
-                    this.deletePlaylist({
-                        playlist: video[key],
-                        playlistKey: key,
-                    });
-                })
-    
-                this.listVideo.append(btn);           
+                }         
 
             })
         })
@@ -60,10 +63,10 @@ class PlaylistVideo{
             <button class="btn remove-list"><i class="fa-solid fa-eraser"></i></button>   
             </span>         
             <div class="card-video-detal">
-                <div class="card-img" style="background-image:url(${videos[key].thumbnails.medium.url})">
+                <div class="card-img" style="background-image:url(${videos[key].snippet.thumbnails.medium.url})">
                 </div>
                 <div class="card-body">
-                <p>${videos[key].title}</p>
+                <p>${videos[key].snippet.title}</p>
                 </div>
             </div>
             `;
@@ -76,6 +79,10 @@ class PlaylistVideo{
                     video: videos,
                     index: key,
                 });
+            })
+            btn.querySelector(".add-playlist").addEventListener("click",()=>{
+                this.addPlaylist(videos[key])
+                console.log(videos[key])
             })
 
             btn.querySelector(".remove-list").addEventListener("click",()=>{
@@ -123,7 +130,7 @@ class PlaylistVideo{
         titleConfig.element.innerHTML = "";
         titleConfig.element.innerHTML = `<p>${titleConfig.title}</p>`;
     }
-    async addPlaylist(vid){
+    async addPlaylist(video){
 
         const div = document.createElement("div");
         div.classList.add("form-add-playlist");
@@ -131,13 +138,13 @@ class PlaylistVideo{
         <div class="playlist-card">
         <input placeholder="playlist" class="playlist-name" name="playlist-name" type="text" list="list-playlist" required>
         <br>
-        <p>${vid.snippet.title}</p>
-        <div class="playlist-img" style="background-image:url(${vid.snippet.thumbnails.medium.url})"></div>
+        <p>${video.snippet.title}</p>
+        <div class="playlist-img" style="background-image:url(${video.snippet.thumbnails.medium.url})"></div>
         <button type="button" class="btn-add-palylist">Add Playlist</button>
         <button type="button" class="btn cancel">Cancel</button>
         </div>
         `;
-
+       
         
 
         const dataList = document.createElement("datalist");
@@ -153,11 +160,11 @@ class PlaylistVideo{
 
         div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
             const key = div.querySelector(".playlist-name").value;
+            this.savePlaylist(key,video);
+            this.saveToLocal();                     
             div.remove("");
 
-            this.savePlaylist(key,vid);
 
-            this.saveToLocal();                     
         })
 
         div.querySelector(".cancel").addEventListener("click",()=>{
@@ -172,11 +179,7 @@ class PlaylistVideo{
         //cek jika playlist kosong
         if(Object.keys(this.playlist).length === 0 || this.playlist.length === 0){            
             this.playlist.push({
-                [`${key}`]:[{
-                    title: vid.snippet.title,
-                    videoId: vid.id.videoId,
-                    thumbnails: vid.snippet.thumbnails
-                }]
+                [`${key}`]:[vid]
             })
             return;
         }
@@ -187,11 +190,7 @@ class PlaylistVideo{
         if(!keyMatch){
             // jika tidak ada yang sama
             this.playlist.push({
-                [`${key}`]:[{
-                    title: vid.snippet.title,
-                    videoId: vid.id.videoId,
-                    thumbnails: vid.snippet.thumbnails
-                }]
+                [`${key}`]:[vid]
             })
             return;
         }
@@ -201,14 +200,10 @@ class PlaylistVideo{
                 Object.keys(obj).find(k=>{
                     if(`${k}` === `${key}`){
                         const cekVideoAda = Object.values(obj[`${key}`]).find(v=>{
-                            return `${v.videoId}` === `${vid.id.videoId}`;
+                            return `${v.id.videoId}` === `${vid.id.videoId}`;
                         })
                         if(!cekVideoAda){
-                            obj[`${key}`].push({
-                                 title: vid.snippet.title,
-                                 videoId: vid.id.videoId,
-                                 thumbnails: vid.snippet.thumbnails
-                            }) 
+                            obj[`${key}`].push(vid) 
                         }
                     }
                 })
@@ -228,6 +223,11 @@ class PlaylistVideo{
                         key: vid.playlistKey,
                         videos: vid.videos
                     })
+                    if(video[key].length === 0){
+                        this.deleteOnePlaylist({
+                            playlistKey: key
+                        })
+                    }
                 }
                 if(video[key].length === 0 ){
                     console.log(`${vid.playlistKey} habis hapus index ${index} di playlist`)
@@ -235,15 +235,16 @@ class PlaylistVideo{
                     this.displayPlaylist();
                 }
             })
-        })        
+        }) 
+        this.saveToLocal(); 
     }
     deleteVideoList(videoConfig){
         const div = document.createElement("div");
         div.classList.add("form-add-playlist");
         div.innerHTML = `
         <div class="playlist-card">
-        <p>${videoConfig.videos[`${videoConfig.videoKey}`].title}</p>
-        <div class="playlist-img" style="background-image:url(${videoConfig.videos[`${videoConfig.videoKey}`].thumbnails.medium.url})"></div>
+        <p>${videoConfig.videos[`${videoConfig.videoKey}`].snippet.title}</p>
+        <div class="playlist-img" style="background-image:url(${videoConfig.videos[`${videoConfig.videoKey}`].snippet.thumbnails.medium.url})"></div>
         <button type="button" class="btn-add-palylist">Delete</button>
         <button type="button" class="btn cancel">Cancel</button>
         </div>
@@ -252,7 +253,7 @@ class PlaylistVideo{
 
         div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
             this.deleteOneVideo(videoConfig);
-            // this.saveToLocal();
+            this.saveToLocal();
             div.remove();
         })
         div.querySelector(".cancel").addEventListener("click",()=>{
@@ -265,7 +266,7 @@ class PlaylistVideo{
         div.innerHTML = `
         <div class="playlist-card">
         <p>${videoConfig.playlistKey}</p>
-        <div class="playlist-img" style="background-image:url(${videoConfig.playlist[0].thumbnails.medium.url})"></div>
+        <div class="playlist-img" style="background-image:url(${videoConfig.playlist[0].snippet.thumbnails.medium.url})"></div>
         <button type="button" class="btn-add-palylist">Delete</button>
         <button type="button" class="btn cancel">Cancel</button>
         </div>
@@ -273,10 +274,10 @@ class PlaylistVideo{
 
         div.querySelector(".btn-add-palylist").addEventListener("click",()=>{
             this.deleteOnePlaylist(videoConfig);
-    
-            // this.saveToLocal();
-            this.displayPlaylist();
             div.remove();
+    
+            this.saveToLocal();
+            this.displayPlaylist();
         })        
 
         div.querySelector(".cancel").addEventListener("click",()=>{
@@ -294,10 +295,12 @@ class PlaylistVideo{
                 }
             })
         })
+        this.saveToLocal();
     }
     
     removePlaylist(){
         this.playlist = [];
         this.saveToLocal();
+        this.displayPlaylist();
     }
 }
