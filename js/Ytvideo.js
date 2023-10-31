@@ -272,7 +272,8 @@ class Ytvideo{
                 playerVideo.classList.add("d-none");
             }
         }
-        if(this.player.playerState === 3){
+        
+        if(this.player.playerState === -1){
             this.playVideo(this.playnow);
         }
 

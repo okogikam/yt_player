@@ -100,14 +100,14 @@ class PlaylistVideo{
     playVideo(videos){
         this.addTitile({
             element: this.element.querySelector("#title"),
-            title: videos.video[`${videos.index}`]['title'],
+            title: videos.video[`${videos.index}`]['snippet']['title'],
         })
         const playlist = [];
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
         Object.keys(videos.video).forEach(key=>{            
-            playlist.push(videos.video[key].videoId);
+            playlist.push(videos.video[key].id.videoId);
         })
         this.ytVideo.player.init({
             type: "costumePlaylist",
