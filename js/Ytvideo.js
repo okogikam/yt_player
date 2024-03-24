@@ -115,6 +115,10 @@ class Ytvideo{
             this.displayListNow = this.playlistVideo.playlist;        
             this.playlistVideo.displayPlaylist();
             this.removeFlex();  
+        }else if(type === "playing"){    
+            this.displayListNow = this.dataVideo;   
+            this.removeFlex();  
+            this.displayHistory(type);  
         }else if(type === "search"){
             this.displayListNow = this.dataVideo;
             this.removeFlex();       
@@ -179,7 +183,7 @@ class Ytvideo{
         }   
     }
     //memutar video
-    playVideo(idVideo){   
+    async playVideo(idVideo){   
         this.isPlaying = true;       
         if(!this.history.find((v)=>(v.id.videoId == this.displayListNow[idVideo].id.videoId))){
             this.history.push(this.displayListNow[idVideo]);
@@ -203,7 +207,6 @@ class Ytvideo{
         playerVideo.classList.remove("d-none");
 
         if(videoKind[1] === "playlist"){
-            console.log("click");
             this.player.init({
                 type: "playlist",
                 videoId: this.displayListNow[idVideo].id.playlistId,
@@ -217,7 +220,11 @@ class Ytvideo{
             type: "video",
         }); 
 
-        
+         const vidHancau = new videoHancau({
+            vidId: this.displayListNow[idVideo].id.videoId
+        })
+        this.dataVideo = await vidHancau.videoList();
+        this.display("playing");   
         
     }
     deleteVideoList(type,idVideo){
@@ -278,7 +285,7 @@ class Ytvideo{
         }
 
         requestAnimationFrame(()=>{
-            this.starLoop()
+            // this.starLoop()
         })
     }    
     //menyimpan history ke localhost
