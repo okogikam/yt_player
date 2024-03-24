@@ -258,7 +258,7 @@ class Ytvideo{
 
     //memulai looping untuk mengecek status video 0 jika sudah selesai
     starLoop(){
-        this.player.startLoop();
+        // this.player.startLoop();
         console.log(this.player.playerState)
         if(this.player.playerState === 0){
             // console.log("video End")            
@@ -266,7 +266,7 @@ class Ytvideo{
                 this.isDone = true;
             },500)
             if(this.isDone && this.autoPlay){             
-                this.playnow += 1;
+                this.playnow = 1;
                 if(this.playnow >= this.displayListNow.length){
                     this.playnow = 0;
                 }
