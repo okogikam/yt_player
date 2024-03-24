@@ -285,9 +285,7 @@ class Ytvideo{
         }
 
         requestAnimationFrame(()=>{
-            if(this.isDone && this.autoPlay){
                 this.starLoop()
-            }
         })
     }    
     //menyimpan history ke localhost
