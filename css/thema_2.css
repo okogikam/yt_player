@@ -1,0 +1,61 @@
+.btn-menu{
+    color: var(--txt-color);
+}
+.btn-menu:hover,
+.btn.active{
+    color: var(--red);
+}
+.btn-video .card{
+    border-radius: 0px 3px 3px 0px;
+}
+.btn-video .card,
+.btn-video p{
+    background-color: var(--black);
+    color: var(--txt-color);
+}
+.btn-video .card .card-body{
+    font-size: 10pt;
+    padding: 3px;
+}
+.btn-video span{
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--black);
+}
+.btn-video span .btn{
+    height: 50% !important;
+}
+.add-playlist{
+    background-color: var(--gray);
+}
+.remove-list{
+    background-color: var(--black);
+}
+.add-playlist i,
+.remove-list i{
+    color: var(--txt-color);
+}
+.menu{
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 8;
+
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.675);
+}
+.menu i{
+    color: var(--txt-color);
+}
+.setting{
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: unset;
+    z-index: 9;
+    background-color: var(--gray);
+    color: var(--txt-color);
+}

@@ -1,0 +1,314 @@
+.d-flex{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+.d-none{
+    display: none !important;
+}
+.input-search{
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+}
+.input-search > input{
+    padding: 5px;
+    border: 1px solid var(--bg-secondary);
+    border-radius: 5px;
+}
+.logo{
+    width: 80px;
+    vertical-align: middle;
+}
+.cari-btn{
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--red);
+    color: var(--white);
+}
+/* .setting-btn{
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--blue);
+    color: var(--white);
+    margin-top: 3px;
+}
+.setting-btn i{
+    color: var(--black);
+} */
+.menu{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+.btn{
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    position: relative;
+    font-weight: 900;
+}
+.btn-menu{
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    position: relative;
+    font-weight: 900;
+}
+.active{
+    color: var(--red);
+}
+.active::after{
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    height: 3px;
+    left: 0;
+    width: 100%;
+    right: 0px;
+    background-color: var(--red);
+}
+.loading{
+    z-index: 99;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.video-player{
+    /* position: sticky;
+    top: 0; */
+    background-color: var(--bg-primary);
+    z-index: 9;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    flex-flow: column;
+    align-items: center;
+}
+#title{
+display:none;
+    max-width: 900px;
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+#video-player{
+  max-width: 100% !important;
+}
+#player{
+    width: 640px;
+    max-width: 100%;
+}
+
+.list-video{
+    display: flex;
+    gap: 10px;
+    max-width: 900px;
+    margin: 15px auto;
+    flex-flow: wrap;
+}
+div.more{
+    width: 100%;
+    text-align: center;
+}
+.load-more{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--red);
+    color: var(--white);
+    margin: auto;
+}
+.btn-video{
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: default;
+    text-align: center;
+    flex: 1 1 32%;
+    position: relative;
+    max-height: 300px;
+    overflow: hidden;
+
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+}
+.btn-video p{
+    background-color: var(--blue);
+    padding: 3px;    
+}
+.setting{
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 150px;
+    background-color: var(--blue);
+    padding-top: 30px;
+    padding-right: 10px;
+    text-align: right;
+}
+.close{
+    font-size: 1.5rem;
+    text-align: right;
+    /* width: 100%; */
+}
+.fa-circle-xmark{
+    color: var(--red);
+}
+
+.card, .card-video-detal{
+    width: 100%;
+    max-width: 300px;
+    background-color: var(--blue);
+    height: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.card .card-body {
+    max-height: 50px;
+    overflow: hidden;
+}
+.card-img{
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.btn-video span{
+    display: flex;
+    flex-flow: column;
+    
+}
+.auto-play .fa-solid{
+    font-size: 18px;
+    color: var(--black);
+}
+.add-playlist{
+    background-color: var(--blue);
+    position: relative;
+    border-top-left-radius: 5px;
+    height: 40px;
+}
+.add-playlist:hover::before{
+    content: "Add to Playlist";
+    background-color: var(--blue);
+    position: absolute;
+    left: 100%;
+    top:0px;
+    width: 100px;
+    padding: 4.5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius:5px;
+}
+.remove-list{
+    background-color: var(--red);
+    border-bottom-left-radius: 5px;
+    height: 40px;
+}
+.remove-list:hover::before{
+    content: "Delete Video";
+    background-color: var(--red);
+    position: absolute;
+    left: 100%;
+    top:0px;
+    width: 100px;
+    padding: 4.5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius:5px;
+}
+
+.form-add-playlist{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.842);
+    bottom: 0px;
+    
+}
+.playlist-card{
+    height: 360px;
+    width: 360px;
+    background-color: white;
+    margin: auto;
+    margin-top: 20vh;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    
+}
+.playlist-img{
+    width:300px;
+    height:150px;
+    background-repeat: no-repeat;
+    margin: 10px;    
+}
+.btn-add-palylist{
+    background-color: var(--blue);
+    border: none;
+    padding: 5px;
+    position: relative;
+    font-weight: 900;
+    border-radius: 5px;
+}
+.video-num{
+    position: absolute;
+    background-color: rgba(8,8,8,0.85);
+    color: var(--white);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+.video-num .fa-solid{
+    color: var(--white);    
+}
+.playlist{
+    background-color: var(--black);
+    padding: 10px;
+}
+.playlist .title{
+    color: white;
+    width: 100%;
+    text-transform: uppercase;
+    
+}
+.playlist .btn-video{
+    flex: 1 1 100% !important;
+}
+.playlist .card-video-detal{
+    max-width: 100%;
+    display: flex;
+}
+.playlist .card-img{
+    flex: 1 1 40%;
+}
+.playlist .card-body{
+    flex: 1 1 60%;
+    padding-left: 10px;    
+}
+.playlist .card-body p{
+    text-align: left;
+}
+.ytp-pause-overlay-container{
+    display: none !important;
+}

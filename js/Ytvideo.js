@@ -48,7 +48,7 @@ class Ytvideo{
         this.maxResults = urlConfig.maxResults || "";
         this.type = urlConfig.type || "";
         this.pageToken = urlConfig.pageToken || "";
-        const url = `https://api.hancau.net/?&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}&type=${this.type}`
+        const url = `https://habaranime.info/api/yts/?type=search&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}`
         
         fetch(url)
         .then((result)=>{
