@@ -18,6 +18,9 @@ class Ytvideo{
         this.isPlaying = false;
         this.dataVideo = [];
         this.qHistory = "";
+        this.usersetting = new userSetting({
+            ytvideo: this
+        });
     }
     setPlayer(player){
         this.player = player;

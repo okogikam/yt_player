@@ -7,6 +7,7 @@ const autoPlaybtn = document.querySelector(".auto-play");
 const closesetting = document.querySelector(".close");
 const removeHistory = document.querySelector(".remove-history");
 const removePlailist = document.querySelector(".remove-playlist");
+const userLogin = document.querySelector(".user-login");
 const setting = document.querySelector(".setting");
 let btnMenu = document.querySelectorAll(".btn-menu");
 const historyVideo = localStorage.getItem("history") ? JSON.parse(localStorage.getItem("history")) : [];
@@ -135,9 +136,16 @@ searchInput.addEventListener("keydown",(event)=>{
 })
 
 removeHistory.addEventListener("click",()=>{
-    Ytsearch.removeHistory();
+    if(confirm("Apa anda yakin?") === true){
+        Ytsearch.removeHistory();
+    }
 })
 removePlailist.addEventListener("click",()=>{
+    if(confirm("Apa anda yakin?") === true){
     Ytsearch.playlistVideo.removePlaylist();
+    }
+})
+userLogin.addEventListener("click",()=>{
+    Ytsearch.usersetting.init();
 })
 
