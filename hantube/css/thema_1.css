@@ -47,7 +47,7 @@
     text-align: center;
 }
 .btn{
-    background-color: transparent;
+    /* background-color: transparent; */
     border: none;
     padding: 5px;
     position: relative;
