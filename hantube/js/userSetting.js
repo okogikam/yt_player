@@ -12,7 +12,6 @@ class userSetting{
 
         if(respons['status'] ==='200'){
             console.log(respons['result']);
-            location.reload();
         }else{
             console.log(`Error : ${JSON.stringify(respons['result'])}`);
         }
@@ -25,9 +24,10 @@ class userSetting{
             <p class="text-center">LOGIN</p>
             <div class="m-3">
                 <label for="un">USERNAME</label>
-                <input name="un" class="form-control" type="text">
+                <input name="un" class="form-control" type="text" required>
                 <label for="ps">PASSWORD</label>
-                <input name="ps" class="form-control" type="password">
+                <input name="ps" class="form-control" type="password" required>
+                <span class="pesan"></span>
             </div>
             <div class="text-end">
                 <button type="button" class="btn btn-primary log">Login</button>
@@ -36,6 +36,15 @@ class userSetting{
             </div>   
         </div>
         `;
+        div.querySelector(".log").addEventListener("click",()=>{
+            let user = div.querySelector("input[name='un']").value;
+            let pass = div.querySelector("input[name='ps']").value;
+            this.loginUser({
+                un: user,
+                ps: pass,
+                el: div.querySelector(".pesan")
+            })
+        })
         div.querySelector(".btn-default").addEventListener("click",()=>{
             div.remove();
         })
@@ -63,8 +72,20 @@ class userSetting{
     addNewUser(){
         // menambah user baru
     }
-    loginUser(){
+    async loginUser(setting){
         // login user
+        try{
+            let request = await fetch(`${this.url}?un=${setting.un}&ps=${setting.ps}`);
+            let respons = await request.json()
+            if(respons['status'] ==='200'){
+                let data = JSON.stringify(respons.result);
+                localStorage.setItem("hantube-user", data);
+                location.reload();
+            }
+            setting.el.innerHTML = "Username atau Pasword salah";
+        }catch(e){
+            console.log(e);
+        }
     }
     logoutUser(){
         // logout user

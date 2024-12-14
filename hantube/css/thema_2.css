@@ -19,6 +19,10 @@ main,
 .video-player{
     background-color: var(--black);
 }
+.pesan{
+    color: var(--red);
+    text-align: center;
+}
 main{
     background-color: var(--black);
     min-height: 100vh;
