@@ -1,7 +1,7 @@
 class userSetting{
     constructor(conf){
         this.ytvideo = conf.ytvideo;
-        this.url = "http://localhost/my_project/hantube/test.php";
+        this.url = "http://localhost/project/hantube/hantube/test.php";
         this.settingBtn = this.ytvideo.element.querySelector(".setting-btn");
     }
    async cekUser(){
@@ -75,12 +75,13 @@ class userSetting{
     async loginUser(setting){
         // login user
         try{
-            let request = await fetch(`${this.url}?un=${setting.un}&ps=${setting.ps}`);
+            let request = await fetch(`${this.url}?type=1&un=${setting.un}&ps=${setting.ps}`);
             let respons = await request.json()
             if(respons['status'] ==='200'){
                 let data = JSON.stringify(respons.result);
                 localStorage.setItem("hantube-user", data);
                 location.reload();
+                return;
             }
             setting.el.innerHTML = "Username atau Pasword salah";
         }catch(e){
@@ -89,6 +90,7 @@ class userSetting{
     }
     logoutUser(){
         // logout user
+        localStorage.setItem("hantube-user", []);
     }
     init(){
         this.displayCard();

@@ -18,7 +18,7 @@ if(!$conn){
     $un = $_GET['un'];
     $ps = $_GET['ps'];  
     switch($_GET['type']){
-        case "1":
+        case "2":
             $pl = $_GET['pl'];
             $hs = $_GET['hs'];
             newUser($un,$ps,$pl,$hs);
