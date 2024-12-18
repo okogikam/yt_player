@@ -20,8 +20,9 @@ if(!$conn){
     switch($_GET['type']){
         case "2":
             $pl = $_GET['pl'];
+            $em = $_GET['em'];
             $hs = $_GET['hs'];
-            newUser($un,$ps,$pl,$hs);
+            newUser($un,$ps,$em,$pl,$hs);
             break;
         default :
             $hasil['result'] = getData($un,$ps);
@@ -46,9 +47,9 @@ function getData($un,$ps){
     }
     return $data;
 }
-function newUser($un,$ps,$pl,$hs){
+function newUser($un,$ps,$em,$pl,$hs){
     global $conn, $hasil;
-    $query = "INSERT INTO hantub_user(username,password,playlist,history) VALUES('$un','$ps','$pl','$hs')";
+    $query = "INSERT INTO hantub_user(username,password,email,playlist,history) VALUES('$un','$ps','$em','$pl','$hs')";
     $result = mysqli_query($conn,$query);
     if($result){
         $hasil['status'] = "200";

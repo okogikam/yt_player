@@ -45,10 +45,54 @@ class userSetting{
                 el: div.querySelector(".pesan")
             })
         })
+        div.querySelector(".reg").addEventListener("click",()=>{
+            this.displayCard2(div);
+        })
         div.querySelector(".btn-default").addEventListener("click",()=>{
             div.remove();
         })
         this.ytvideo.element.appendChild(div);
+    }
+    displayCard2(div){
+        div.innerHTML = `
+        <div class="playlist-card">
+            <p class="text-center">LOGIN</p>
+            <div class="m-3">
+                <label for="un">Username</label>
+                <input name="un" class="form-control" type="text" required>
+                <label for="em">Email</label>
+                <input name="em" class="form-control" type="text" required>
+                <label for="ps">Pasword</label>
+                <input name="ps" class="form-control" type="password" required>
+                <label for="ps2">Confirm Password</label>
+                <input name="ps2" class="form-control" type="password" required>
+                <span class="pesan"></span>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-secondary reg">Register</button>
+                <button type="button" class="btn btn-default">Cancel</button> 
+            </div>   
+        </div>
+        `
+        div.querySelector(".reg").addEventListener("click",()=>{
+            let user = div.querySelector("input[name='un']").value;
+            let email = div.querySelector("input[name='em']").value;
+            let pass = div.querySelector("input[name='ps']").value;
+            let pass2 = div.querySelector("input[name='ps2']").value;
+            if(pass !== pass2){
+                div.querySelector(".pesan").innerHTML = "Password Salah";
+                return;
+            }
+            this.addNewUser({
+                un: user,
+                em: email,
+                ps: pass,
+                el: div.querySelector(".pesan")
+            })
+        })
+        div.querySelector(".btn-default").addEventListener("click",()=>{
+            div.remove();
+        })
     }
     getPlaylist(){
         // mengambil data playlist di server
@@ -69,8 +113,23 @@ class userSetting{
     saveUser(){
         // simpan data user dilocal
     }
-    addNewUser(){
+   async addNewUser(setting){
         // menambah user baru
+        try{
+            let hs = JSON.stringify(this.ytvideo.history);
+            let pl = JSON.stringify(this.ytvideo.playlistVideo.playlist);
+            let request = await fetch(`${this.url}?type=2&un=${setting.un}&ps=${setting.ps}&em=${setting.em}&pl=${pl}&hs=${hs}`);
+            let respons = await request.json()
+            if(respons['status'] ==='200'){
+                let data = JSON.stringify(respons.result);
+                localStorage.setItem("hantube-user", data);
+                location.reload();
+                return;
+            }
+            setting.el.innerHTML = "Username atau Pasword salah";
+        }catch(e){
+            setting.el.innerHTML = e;
+        }
     }
     async loginUser(setting){
         // login user
@@ -85,7 +144,7 @@ class userSetting{
             }
             setting.el.innerHTML = "Username atau Pasword salah";
         }catch(e){
-            console.log(e);
+            setting.el.innerHTML = e;
         }
     }
     logoutUser(){
