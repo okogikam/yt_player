@@ -165,6 +165,9 @@ class userSetting{
         // logout user
         localStorage.setItem("hantube-user", []);
     }
+    htmlEntities(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
     init(){
         this.displayCard();
         this.settingBtn.click();

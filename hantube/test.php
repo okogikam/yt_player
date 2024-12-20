@@ -77,7 +77,7 @@ function newUser($un,$ps,$em,$pl,$hs){
     $result = mysqli_query($conn,$query);
     if($result){
         $hasil['status'] = "200";
-        $data = $result;
+        $data = login($un,$ps);
     }else{
         $hasil['status'] = "205";
         $data = "";
