@@ -4,17 +4,17 @@ class userSetting{
         this.url = "http://localhost/project/hantube/hantube/test.php";
         this.settingBtn = this.ytvideo.element.querySelector(".setting-btn");
     }
-   async cekUser(){
+   async cekUser(username){
         // mengecek data user misalkan tidak ada return false
         // misalkan data ada return data user
-        let requiest = await fetch(this.url);
+        let requiest = await fetch(`${this.url}?type=0&un=${username}&ps=`);
         let respons = await requiest.json();
 
         if(respons['status'] ==='200'){
-            console.log(respons['result']);
-        }else{
-            console.log(`Error : ${JSON.stringify(respons['result'])}`);
+            return true;
         }
+
+        return false;
     }
     displayCard(){
         let div = document.createElement("div");
@@ -58,15 +58,17 @@ class userSetting{
         <div class="playlist-card">
             <p class="text-center">LOGIN</p>
             <div class="m-3">
+                <form method="POST" class="form" action="#">
                 <label for="un">Username</label>
                 <input name="un" class="form-control" type="text" required>
                 <label for="em">Email</label>
                 <input name="em" class="form-control" type="text" required>
-                <label for="ps">Pasword</label>
-                <input name="ps" class="form-control" type="password" required>
-                <label for="ps2">Confirm Password</label>
-                <input name="ps2" class="form-control" type="password" required>
+                <label for="pass">Pasword</label>
+                <input name="pass" class="form-control" type="password" required>
+                <label for="pass2">Confirm Password</label>
+                <input name="pass2" class="form-control" type="password" required>
                 <span class="pesan"></span>
+                </form>
             </div>
             <div class="text-end">
                 <button type="button" class="btn btn-secondary reg">Register</button>
@@ -74,18 +76,22 @@ class userSetting{
             </div>   
         </div>
         `
-        div.querySelector(".reg").addEventListener("click",()=>{
+        div.querySelector(".reg").addEventListener("click",async ()=>{
             let user = div.querySelector("input[name='un']").value;
-            let email = div.querySelector("input[name='em']").value;
-            let pass = div.querySelector("input[name='ps']").value;
-            let pass2 = div.querySelector("input[name='ps2']").value;
+            let pass = div.querySelector("input[name='pass']").value;
+            let pass2 = div.querySelector("input[name='pass2']").value;
+            let cek = await this.cekUser(user);
+            if(cek){
+                div.querySelector(".pesan").innerHTML = "Username sudah terdaftar";
+                return;
+            }
             if(pass !== pass2){
                 div.querySelector(".pesan").innerHTML = "Password Salah";
                 return;
             }
             this.addNewUser({
+                form: div.querySelector(".form"),
                 un: user,
-                em: email,
                 ps: pass,
                 el: div.querySelector(".pesan")
             })
@@ -114,15 +120,23 @@ class userSetting{
         // simpan data user dilocal
     }
    async addNewUser(setting){
-        // menambah user baru
-        try{
-            let hs = JSON.stringify(this.ytvideo.history);
-            let pl = JSON.stringify(this.ytvideo.playlistVideo.playlist);
-            let request = await fetch(`${this.url}?type=2&un=${setting.un}&ps=${setting.ps}&em=${setting.em}&pl=${pl}&hs=${hs}`);
+        // menambah user baru        
+        // 
+        try{            
+            let history = this.htmlEntities(JSON.stringify(this.ytvideo.history));
+            let playlist = this.htmlEntities(JSON.stringify(this.ytvideo.playlistVideo.playlist));
+            let data = new FormData(setting.form);
+            data.append("hs",history);
+            data.append("pl",playlist);
+            let request = await fetch(`${this.url}?type=2&un=${setting.un}&ps=${setting.ps}`,{
+                method: "POST",
+                body: data
+            });
             let respons = await request.json()
             if(respons['status'] ==='200'){
                 let data = JSON.stringify(respons.result);
                 localStorage.setItem("hantube-user", data);
+                console.log(respons);
                 location.reload();
                 return;
             }
