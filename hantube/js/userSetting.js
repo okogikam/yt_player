@@ -168,6 +168,9 @@ class userSetting{
     htmlEntities(str) {
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
+    htmlEntitiesDecode(str){
+        return String(str).replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,"<").replace(/&quot;/g,'"').replace(/&qoute1/g,"'");
+    }
     init(){
         this.displayCard();
         this.settingBtn.click();

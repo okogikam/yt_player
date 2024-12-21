@@ -24,7 +24,7 @@ class Ytvideo{
     }
     setPlayer(player){
         this.player = player;
-        // console.log(this.player)
+        // // console.log(this.player)
         this.starLoop();
     }
     setPlaylist(){
@@ -203,8 +203,8 @@ class Ytvideo{
             element: this.element.querySelector("#title"),
             title: this.displayListNow[idVideo].snippet.title
         })
-        // console.log(type[1]);
-        // console.log(this.displayListNow[idVideo].id.playlistId);
+        // // console.log(type[1]);
+        // // console.log(this.displayListNow[idVideo].id.playlistId);
 
         const playerVideo = this.element.querySelector(".video-player");
         playerVideo.classList.remove("d-none");
@@ -262,9 +262,9 @@ class Ytvideo{
     //memulai looping untuk mengecek status video 0 jika sudah selesai
     starLoop(){
         // this.player.startLoop();
-        console.log(this.player.playerState)
+        // console.log(this.player.playerState)
         if(this.player.playerState === 0){
-            // console.log("video End")            
+            // // console.log("video End")            
             setTimeout(()=>{
                 this.isDone = true;
             },500)
@@ -275,7 +275,7 @@ class Ytvideo{
                 }
                 this.playVideo(this.playnow);
                 this.isDone = false;
-                // console.log("next")
+                // // console.log("next")
                 
             }else{
                 const playerVideo = this.element.querySelector(".video-player");
@@ -302,10 +302,24 @@ class Ytvideo{
         this.saveHistory();
         this.display("history")
     }
-    
+    // ada user yang login
+    isUserLogin(){
+        let dataUser = JSON.parse(localStorage.getItem('hantube-user'));
+        if(dataUser.hasOwnProperty('username')){
+            let playlist = this.usersetting.htmlEntitiesDecode(dataUser.playlist);
+            let his = this.usersetting.htmlEntitiesDecode(dataUser.history);
+            // simpan history
+            this.history = JSON.parse(his);
+            this.saveHistory();
+            //simpan playlist;
+            this.playlistVideo.playlist = JSON.parse(playlist);
+            this.playlistVideo.saveToLocal();
+        }
+    }
 
     //memuat halaman awal
     load(){
+        this.isUserLogin();
         if(this.history.length > 0 ){
             this.display("search");
         }   

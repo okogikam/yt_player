@@ -37,6 +37,7 @@ window.addEventListener("load", async () => {
 
     player.makeElement();
     Ytsearch.setPlayer(player);
+    Ytsearch.isUserLogin();
     loading.classList.add("d-none");
 });
 
