@@ -32,6 +32,12 @@ if(!$conn){
             // $hasil['result'] = $_POST;
             $hasil['result'] = newUser($un,$ps,$em,$pl,$hs);
             break;
+        case "3":
+            $col = $_POST['col'];
+            $id = $_POST['id'];
+            $data = $_POST['data'];
+            $hasil['result'] = updateData($id,$col,$data);
+            break;
         default :
             $un = $_GET['un'];
             $hasil['result'] = getData($un);
@@ -78,6 +84,20 @@ function newUser($un,$ps,$em,$pl,$hs){
     if($result){
         $hasil['status'] = "200";
         $data = login($un,$ps);
+    }else{
+        $hasil['status'] = "205";
+        $data = "";
+    }
+    return $data;
+}
+function updateData($id,$colom,$data){
+    global $conn, $hasil;
+    $data = str_replace("'","&qoute1",$data);
+    $query = "UPDATE hantub_user SET $colom = '$data' WHERE id='$id' ";
+    $result = mysqli_query($conn,$query);
+    if($result){
+        $hasil['status'] = "200";
+        $data = "sukses";
     }else{
         $hasil['status'] = "205";
         $data = "";

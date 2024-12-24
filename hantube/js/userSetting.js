@@ -100,24 +100,25 @@ class userSetting{
             div.remove();
         })
     }
-    getPlaylist(){
-        // mengambil data playlist di server
-        // kemudian disimpan dilokal
-    }
-    getHistory(){
-        // mengambil data history di server
-        // kemudian disimpan dilokal
-    }
-    savePlaylist(){
-        // mengambil data playlist di local
+    async saveUpdate(conf){
+        // mengambil data playlist / history di local
         // kemudian disimpan didatabase
-    }
-    saveHistory(){
-        // mengambil data history di local
-        // kemudian disimpan di database
-    }
-    saveUser(){
-        // simpan data user dilocal
+        let data = this.htmlEntities(JSON.stringify(conf.data));
+        let form = new FormData();
+        form.append("col",conf.colom);
+        form.append("data", data);
+        form.append("id", conf.id);
+        let request = await fetch(`${this.url}?type=3&un=${conf.un}&ps=${conf.ps}`,{
+            method: "POST",
+            body: form
+        });
+        let respons = await request.json()
+        if(respons["result"] === "sukses"){
+            this.ytvideo.userDataLogin[`${conf.colom}`] = data;
+            let newDTuser = JSON.stringify(this.ytvideo.userDataLogin);
+            localStorage.setItem("hantube-user", newDTuser);
+            // console.log(newDTuser);
+        }
     }
    async addNewUser(setting){
         // menambah user baru        
@@ -166,7 +167,7 @@ class userSetting{
         localStorage.setItem("hantube-user", []);
     }
     htmlEntities(str) {
-        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g,"&qoute1");
     }
     htmlEntitiesDecode(str){
         return String(str).replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,"<").replace(/&quot;/g,'"').replace(/&qoute1/g,"'");

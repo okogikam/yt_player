@@ -21,6 +21,7 @@ class Ytvideo{
         this.usersetting = new userSetting({
             ytvideo: this
         });
+        this.userDataLogin = {};
     }
     setPlayer(player){
         this.player = player;
@@ -294,6 +295,15 @@ class Ytvideo{
     //menyimpan history ke localhost
     saveHistory(){
         localStorage.setItem("history",JSON.stringify(this.history));
+        if(this.userDataLogin.hasOwnProperty('username')){
+            this.usersetting.saveUpdate({
+                id: this.userDataLogin.id,
+                un: this.userDataLogin.username,
+                ps: this.userDataLogin.password,
+                colom: "history",
+                data: this.history
+            })
+        }
     }
     
     //menghapus history ke localhost
@@ -314,6 +324,7 @@ class Ytvideo{
             //simpan playlist;
             this.playlistVideo.playlist = JSON.parse(playlist);
             this.playlistVideo.saveToLocal();
+            this.userDataLogin = dataUser;
         }
     }
 
