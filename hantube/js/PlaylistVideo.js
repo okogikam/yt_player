@@ -213,6 +213,15 @@ class PlaylistVideo{
     }
     saveToLocal(){
         localStorage.setItem("playlist",JSON.stringify(this.playlist));
+        if(this.ytVideo.userDataLogin.hasOwnProperty('username')){
+            this.ytVideo.usersetting.saveUpdate({
+                id: this.ytVideo.userDataLogin.id,
+                un: this.ytVideo.userDataLogin.username,
+                ps: this.ytVideo.userDataLogin.password,
+                colom: "playlist",
+                data: this.playlist
+            })
+        }
     }
     deleteOneVideo(vid){
         Object.values(this.playlist).forEach((video,index)=>{

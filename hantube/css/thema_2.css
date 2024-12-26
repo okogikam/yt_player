@@ -165,3 +165,26 @@ main{
     height: 100%;
     opacity: 85%;
 }
+.input-search{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.user-info{
+    max-width: 120px;
+    max-height: 50px;
+    overflow: hidden;
+    padding: 5px 10px;
+}
+.psn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 80vh;
+}
+.psn p {
+    color: var(--white) !important;
+    font-size: 1.5rem;
+    opacity: 70%;
+}

@@ -165,6 +165,8 @@ class userSetting{
     logoutUser(){
         // logout user
         localStorage.setItem("hantube-user", []);
+        localStorage.setItem("playlist", []);
+        localStorage.setItem("history", []);
     }
     htmlEntities(str) {
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g,"&qoute1");
@@ -173,6 +175,11 @@ class userSetting{
         return String(str).replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,"<").replace(/&quot;/g,'"').replace(/&qoute1/g,"'");
     }
     init(){
+        if(this.ytvideo.userDataLogin.hasOwnProperty('username')){
+            this.logoutUser();
+            location.reload();
+            return;
+        }
         this.displayCard();
         this.settingBtn.click();
     }

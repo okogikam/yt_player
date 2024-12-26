@@ -318,6 +318,10 @@ class Ytvideo{
         if(dataUser.hasOwnProperty('username')){
             let playlist = this.usersetting.htmlEntitiesDecode(dataUser.playlist);
             let his = this.usersetting.htmlEntitiesDecode(dataUser.history);
+            let userInfo = this.element.querySelector(".user-info");
+            userInfo.innerHTML = `<i class="fa-solid fa-circle-user"></i> ${dataUser.username}`;
+            let userLoginBtn = this.element.querySelector(".user-login");
+            userLoginBtn.innerHTML = `<i class="fa-solid fa-user"></i>  Logout`
             // simpan history
             this.history = JSON.parse(his);
             this.saveHistory();
