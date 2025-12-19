@@ -52,7 +52,7 @@ class Ytvideo{
         this.maxResults = urlConfig.maxResults || "";
         this.type = urlConfig.type || "";
         this.pageToken = urlConfig.pageToken || "";
-        const url = `./api.php?type=search&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}`
+        const url = `${this.url }?type=search&q=${this.q}&pageToken=${this.pageToken}&maxResults=${this.maxResults}`
         
         fetch(url)
         .then((result)=>{
