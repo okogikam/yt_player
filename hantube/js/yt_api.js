@@ -15,7 +15,7 @@ const Playlist = localStorage.getItem("playlist") ? JSON.parse(localStorage.getI
 let searchInput = document.querySelector(".search");
 let player = new Player({
     element: document.querySelector("#video-player"),
-    origin: domain,
+    origin: "https://okogikam.github.io/yt_player/",
 })
 
 
