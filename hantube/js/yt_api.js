@@ -23,7 +23,7 @@ const Ytsearch = new Ytvideo({
     element: document.querySelector("body"),    
     playlist: Playlist,
     history: historyVideo,
-    url: "https://yt-player-omega.vercel.app/api.php",
+    url: "./api/api.php",
 })
 
 // if(typeof player === "object"){
