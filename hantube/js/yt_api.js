@@ -23,7 +23,7 @@ const Ytsearch = new Ytvideo({
     element: document.querySelector("body"),    
     playlist: Playlist,
     history: historyVideo,
-    url: "https://okogikam.github.io/yt_player/api.php?",
+    url: "https://okogikam.github.io/yt_player/api.php",
 })
 
 // if(typeof player === "object"){
